@@ -1,0 +1,113 @@
+<template>
+<style>
+
+@font-face{font-family:'Inter';font-weight:400;font-style:normal;font-display:block;src:url("assets/fonts/inter-latin-400-normal.woff2") format('woff2');}
+@font-face{font-family:'Inter';font-weight:500;font-style:normal;font-display:block;src:url("assets/fonts/inter-latin-500-normal.woff2") format('woff2');}
+@font-face{font-family:'IBM Plex Mono';font-weight:400;font-style:normal;font-display:block;src:url("assets/fonts/ibm-plex-mono-latin-400-normal.woff2") format('woff2');}
+@font-face{font-family:'IBM Plex Mono';font-weight:500;font-style:normal;font-display:block;src:url("assets/fonts/ibm-plex-mono-latin-500-normal.woff2") format('woff2');}
+
+#root{position:relative;width:1920px;height:1080px;overflow:hidden;font-family:'Inter',sans-serif;color:#EEF1FF;}
+#f02-rewind-bg{position:absolute;inset:0;background:#05070F;}
+#root .jf{position:absolute;left:0;top:0;width:260px;height:310px;transform-origin:130px 155px;}
+#root .jf svg{display:block;overflow:visible;}
+#root .mono{font-family:'IBM Plex Mono',monospace;font-weight:500;text-transform:uppercase;letter-spacing:0.14em;}
+
+#f02-copy{position:absolute;left:150px;top:230px;width:1050px;}
+#root .f02-line{overflow:hidden;padding-bottom:8px;}
+#root .f02-line span{display:inline-block;font-size:96px;font-weight:500;letter-spacing:-0.035em;line-height:1.05;}
+#root .f02-line em{font-style:normal;color:#1A4DFF;}
+#root .f02-small span{font-size:64px;color:#8FA6FF;}
+#f02-meter{margin-top:70px;width:760px;}
+#root .f02-lab{display:flex;justify-content:space-between;font-size:20px;color:#8FA6FF;margin-bottom:14px;}
+#f02-rw{color:#1A4DFF;}
+#f02-track{height:6px;background:#16225E;}
+#f02-fill{height:6px;width:760px;background:#1A4DFF;transform-origin:left center;}
+
+</style>
+<div id="root" data-composition-id="02-rewind" data-width="1920" data-height="1080" data-duration="5">
+
+  <div id="f02-rewind-bg" class="clip" data-start="0" data-duration="5" data-track-index="0"></div>
+  <div id="f02-rewind-stage" class="clip" data-start="0" data-duration="5" data-track-index="1" style="position:absolute;inset:0;">
+
+<div id="f02-copy">
+  <div class="f02-line"><span id="f02-l1">when it grows old,</span></div>
+  <div class="f02-line"><span id="f02-l2">it turns <em>young again.</em></span></div>
+  <div class="f02-line f02-small"><span id="f02-l3">and starts over.</span></div>
+  <div id="f02-meter">
+    <div class="mono f02-lab"><span>young</span><span id="f02-rw">&#9664;&#9664; rewind</span><span>old</span></div>
+    <div id="f02-track"><div id="f02-fill"></div></div>
+  </div>
+</div>
+<div class="jf" id="f02-jf"><svg viewBox="0 0 260 310" width="260" height="310">
+  <path class="jf-dome" fill="#1A4DFF" d="M0 155 L0 130 A130 130 0 0 1 260 130 L260 155 Z"/>
+  <rect class="jf-t" x="75" y="175" width="16" height="100" rx="8" fill="#1A4DFF"/>
+  <rect class="jf-t" x="122" y="175" width="16" height="135" rx="8" fill="#1A4DFF"/>
+  <rect class="jf-t" x="169" y="175" width="16" height="100" rx="8" fill="#1A4DFF"/>
+</svg></div>
+
+  </div>
+</div>
+<script>
+(function(){
+
+function rig(jid){
+  const el=document.getElementById(jid), dome=el.querySelector('.jf-dome'), ts=el.querySelectorAll('.jf-t');
+  gsap.set(dome,{transformOrigin:'50% 100%'}); ts.forEach(t=>gsap.set(t,{transformOrigin:'50% 0%'}));
+  return function(x,y,rot,s,t,tent,alpha){
+    tent=(tent===undefined)?1:tent; alpha=(alpha===undefined)?1:alpha;
+    const p=Math.sin(t*Math.PI*2/0.9);
+    gsap.set(el,{x:x-130,y:y-155,rotation:rot,scale:s,opacity:alpha});
+    gsap.set(dome,{scaleX:1+0.06*p,scaleY:1-0.07*p});
+    ts.forEach((r,i)=>gsap.set(r,{scaleY:Math.max(0,tent*(1+0.12*Math.sin(t*Math.PI*2/0.9-0.8-i*0.35))),skewX:7*Math.sin(t*Math.PI*2/1.1+i)}));
+  };
+}
+function clamp(v,a,b){return Math.max(a,Math.min(b,v));}
+function seg(t,a,b){return clamp((t-a)/(b-a),0,1);}
+function easeOut(u){return 1-Math.pow(1-u,3);}
+function easeInOut(u){return u<0.5?4*u*u*u:1-Math.pow(-2*u+2,3)/2;}
+function lerp(a,b,u){return a+(b-a)*u;}
+function heading(dx,dy){return Math.atan2(dy,dx)*180/Math.PI+90;}
+// Pure-math path sampler (M/L/C only): no DOM measurement, so it is seek-order independent.
+function mkPath(d){
+  const tk=d.match(/[MLC]|-?[0-9.]+/g); const pts=[]; let i=0,cx=0,cy=0,cmd='M';
+  while(i<tk.length){ if(/[MLC]/.test(tk[i])){cmd=tk[i++];}
+    if(cmd==='M'||cmd==='L'){cx=+tk[i++];cy=+tk[i++];pts.push([cx,cy]);}
+    else { const x1=+tk[i++],y1=+tk[i++],x2=+tk[i++],y2=+tk[i++],x3=+tk[i++],y3=+tk[i++];
+      for(let k=1;k<=60;k++){const t=k/60,m=1-t;pts.push([m*m*m*cx+3*m*m*t*x1+3*m*t*t*x2+t*t*t*x3,m*m*m*cy+3*m*m*t*y1+3*m*t*t*y2+t*t*t*y3]);}
+      cx=x3;cy=y3; } }
+  const cum=[0]; for(let k=1;k<pts.length;k++){cum.push(cum[k-1]+Math.hypot(pts[k][0]-pts[k-1][0],pts[k][1]-pts[k-1][1]));}
+  return {pts,cum,L:cum[cum.length-1]};
+}
+function at(P,s){s=clamp(s,0,P.L);let k=1;while(k<P.cum.length-1&&P.cum[k]<s)k++;const a=P.pts[k-1],b=P.pts[k],seg=(P.cum[k]-P.cum[k-1])||1,f=(s-P.cum[k-1])/seg;return [a[0]+(b[0]-a[0])*f,a[1]+(b[1]-a[1])*f];}
+function onPath(P,u){const s=clamp(u,0,1)*P.L,a=at(P,s),b=at(P,Math.min(P.L,s+6)),c=(b[0]===a[0]&&b[1]===a[1])?at(P,Math.max(0,s-6)):null;
+  const dx=c?a[0]-c[0]:b[0]-a[0],dy=c?a[1]-c[1]:b[1]-a[1];return {x:a[0],y:a[1],rot:heading(dx,dy)};}
+
+const D=4.5;
+const tl=gsap.timeline({paused:true});
+
+tl.fromTo('#f02-l1',{yPercent:110},{yPercent:0,duration:0.7,ease:'expo.out'},0.2);
+tl.fromTo('#f02-meter',{autoAlpha:0},{autoAlpha:1,duration:0.4},0.3);
+tl.fromTo('#f02-fill',{scaleX:0.02},{scaleX:1,duration:1.3,ease:'power1.in'},0.4);
+tl.fromTo('#f02-rw',{autoAlpha:0},{autoAlpha:1,duration:0.15},1.8);
+tl.to('#f02-fill',{scaleX:0.02,duration:0.9,ease:'power3.inOut'},1.85);
+tl.fromTo('#f02-l2',{yPercent:110},{yPercent:0,duration:0.7,ease:'expo.out'},1.9);
+tl.fromTo('#f02-l3',{yPercent:110},{yPercent:0,duration:0.7,ease:'expo.out'},3.1);
+const pose=rig('f02-jf'), jd=document.querySelector('#f02-jf .jf-dome'), jts=document.querySelectorAll('#f02-jf .jf-t');
+function render(t){
+  // age up (0.4-1.7): grows, droops, fades toward mist; rewind (1.85-2.75): shrinks to a speck; rebirth (2.8-3.5)
+  let s, tent=1, drift=Math.sin(t*2)*10, rot=Math.sin(t*1.4)*4, col;
+  const age=seg(t,0.4,1.7), back=easeInOut(seg(t,1.85,2.75)), born=easeOut(seg(t,2.8,3.5));
+  if(t<1.85){s=lerp(0.9,1.45,age);tent=lerp(1,1.5,age);rot+=age*14;col=age;}
+  else if(t<2.8){s=lerp(1.45,0.12,back);tent=lerp(1.5,0.2,back);col=1-back;}
+  else{s=lerp(0.12,1.0,born);tent=lerp(0.2,1,born);col=0;}
+  const c=gsap.utils.interpolate('#1A4DFF','#8FA6FF',col*0.8);
+  gsap.set(jd,{fill:c});jts.forEach(r=>gsap.set(r,{fill:c}));
+  pose(1480,500+drift,rot,s,t,tent);
+}
+const clock={t:0};tl.to(clock,{t:D,duration:D,ease:'none',onUpdate:function(){render(clock.t);}},0);render(0);
+
+tl.to({},{duration:D},0);
+window.__timelines["02-rewind"]=tl;
+})();
+</script>
+</template>

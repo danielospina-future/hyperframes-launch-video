@@ -1,0 +1,110 @@
+<template>
+<style>
+
+@font-face{font-family:'Inter';font-weight:400;font-style:normal;font-display:block;src:url("assets/fonts/inter-latin-400-normal.woff2") format('woff2');}
+@font-face{font-family:'Inter';font-weight:500;font-style:normal;font-display:block;src:url("assets/fonts/inter-latin-500-normal.woff2") format('woff2');}
+@font-face{font-family:'IBM Plex Mono';font-weight:400;font-style:normal;font-display:block;src:url("assets/fonts/ibm-plex-mono-latin-400-normal.woff2") format('woff2');}
+@font-face{font-family:'IBM Plex Mono';font-weight:500;font-style:normal;font-display:block;src:url("assets/fonts/ibm-plex-mono-latin-500-normal.woff2") format('woff2');}
+
+#root{position:relative;width:1920px;height:1080px;overflow:hidden;font-family:'Inter',sans-serif;color:#EEF1FF;}
+#f04-atoms-bg{position:absolute;inset:0;background:#05070F;}
+#root .jf{position:absolute;left:0;top:0;width:260px;height:310px;transform-origin:130px 155px;}
+#root .jf svg{display:block;overflow:visible;}
+#root .mono{font-family:'IBM Plex Mono',monospace;font-weight:500;text-transform:uppercase;letter-spacing:0.14em;}
+
+#f04-pre{position:absolute;left:150px;top:250px;overflow:hidden;}
+#f04-pre span{display:inline-block;font-size:72px;font-weight:500;color:#8FA6FF;letter-spacing:-0.03em;}
+#f04-sw{position:absolute;left:140px;top:350px;font-size:250px;font-weight:500;letter-spacing:-0.05em;line-height:1;white-space:nowrap;}
+#root .f04-ch{display:inline-block;}
+#f04-post{position:absolute;left:150px;top:420px;}
+#root .f04-line{overflow:hidden;padding-bottom:12px;}
+#root .f04-line span{display:inline-block;font-size:150px;font-weight:500;letter-spacing:-0.045em;line-height:1.02;}
+#root .f04-line em{font-style:normal;color:#1A4DFF;}
+#f04-a2{font-size:34px;color:#EEF1FF;margin-top:36px;}
+
+</style>
+<div id="root" data-composition-id="04-atoms" data-width="1920" data-height="1080" data-duration="4.9">
+
+  <div id="f04-atoms-bg" class="clip" data-start="0" data-duration="4.9" data-track-index="0"></div>
+  <div id="f04-atoms-stage" class="clip" data-start="0" data-duration="4.9" data-track-index="1" style="position:absolute;inset:0;">
+
+<div id="f04-pre"><span id="f04-p1">ai has eaten</span></div>
+<div id="f04-sw" data-layout-allow-overlap="true"><span class="f04-ch" data-layout-allow-overlap="true" id="f04-c0">s</span><span class="f04-ch" data-layout-allow-overlap="true" id="f04-c1">o</span><span class="f04-ch" data-layout-allow-overlap="true" id="f04-c2">f</span><span class="f04-ch" data-layout-allow-overlap="true" id="f04-c3">t</span><span class="f04-ch" data-layout-allow-overlap="true" id="f04-c4">w</span><span class="f04-ch" data-layout-allow-overlap="true" id="f04-c5">a</span><span class="f04-ch" data-layout-allow-overlap="true" id="f04-c6">r</span><span class="f04-ch" data-layout-allow-overlap="true" id="f04-c7">e</span></div>
+<div id="f04-post" data-layout-allow-overlap="true">
+  <div class="f04-line"><span id="f04-a1">the world of <em>atoms</em></span></div>
+  <div class="mono" id="f04-a2">is yet to be disrupted.</div>
+</div>
+<div class="jf" id="f04-jf"><svg viewBox="0 0 260 310" width="260" height="310">
+  <path class="jf-dome" fill="#1A4DFF" d="M0 155 L0 130 A130 130 0 0 1 260 130 L260 155 Z"/>
+  <rect class="jf-t" x="75" y="175" width="16" height="100" rx="8" fill="#1A4DFF"/>
+  <rect class="jf-t" x="122" y="175" width="16" height="135" rx="8" fill="#1A4DFF"/>
+  <rect class="jf-t" x="169" y="175" width="16" height="100" rx="8" fill="#1A4DFF"/>
+</svg></div>
+
+  </div>
+</div>
+<script>
+(function(){
+
+function rig(jid){
+  const el=document.getElementById(jid), dome=el.querySelector('.jf-dome'), ts=el.querySelectorAll('.jf-t');
+  gsap.set(dome,{transformOrigin:'50% 100%'}); ts.forEach(t=>gsap.set(t,{transformOrigin:'50% 0%'}));
+  return function(x,y,rot,s,t,tent,alpha){
+    tent=(tent===undefined)?1:tent; alpha=(alpha===undefined)?1:alpha;
+    const p=Math.sin(t*Math.PI*2/0.9);
+    gsap.set(el,{x:x-130,y:y-155,rotation:rot,scale:s,opacity:alpha});
+    gsap.set(dome,{scaleX:1+0.06*p,scaleY:1-0.07*p});
+    ts.forEach((r,i)=>gsap.set(r,{scaleY:Math.max(0,tent*(1+0.12*Math.sin(t*Math.PI*2/0.9-0.8-i*0.35))),skewX:7*Math.sin(t*Math.PI*2/1.1+i)}));
+  };
+}
+function clamp(v,a,b){return Math.max(a,Math.min(b,v));}
+function seg(t,a,b){return clamp((t-a)/(b-a),0,1);}
+function easeOut(u){return 1-Math.pow(1-u,3);}
+function easeInOut(u){return u<0.5?4*u*u*u:1-Math.pow(-2*u+2,3)/2;}
+function lerp(a,b,u){return a+(b-a)*u;}
+function heading(dx,dy){return Math.atan2(dy,dx)*180/Math.PI+90;}
+// Pure-math path sampler (M/L/C only): no DOM measurement, so it is seek-order independent.
+function mkPath(d){
+  const tk=d.match(/[MLC]|-?[0-9.]+/g); const pts=[]; let i=0,cx=0,cy=0,cmd='M';
+  while(i<tk.length){ if(/[MLC]/.test(tk[i])){cmd=tk[i++];}
+    if(cmd==='M'||cmd==='L'){cx=+tk[i++];cy=+tk[i++];pts.push([cx,cy]);}
+    else { const x1=+tk[i++],y1=+tk[i++],x2=+tk[i++],y2=+tk[i++],x3=+tk[i++],y3=+tk[i++];
+      for(let k=1;k<=60;k++){const t=k/60,m=1-t;pts.push([m*m*m*cx+3*m*m*t*x1+3*m*t*t*x2+t*t*t*x3,m*m*m*cy+3*m*m*t*y1+3*m*t*t*y2+t*t*t*y3]);}
+      cx=x3;cy=y3; } }
+  const cum=[0]; for(let k=1;k<pts.length;k++){cum.push(cum[k-1]+Math.hypot(pts[k][0]-pts[k-1][0],pts[k][1]-pts[k-1][1]));}
+  return {pts,cum,L:cum[cum.length-1]};
+}
+function at(P,s){s=clamp(s,0,P.L);let k=1;while(k<P.cum.length-1&&P.cum[k]<s)k++;const a=P.pts[k-1],b=P.pts[k],seg=(P.cum[k]-P.cum[k-1])||1,f=(s-P.cum[k-1])/seg;return [a[0]+(b[0]-a[0])*f,a[1]+(b[1]-a[1])*f];}
+function onPath(P,u){const s=clamp(u,0,1)*P.L,a=at(P,s),b=at(P,Math.min(P.L,s+6)),c=(b[0]===a[0]&&b[1]===a[1])?at(P,Math.max(0,s-6)):null;
+  const dx=c?a[0]-c[0]:b[0]-a[0],dy=c?a[1]-c[1]:b[1]-a[1];return {x:a[0],y:a[1],rot:heading(dx,dy)};}
+
+const D=4.5;
+const tl=gsap.timeline({paused:true});
+
+tl.fromTo('#f04-p1',{yPercent:110},{yPercent:0,duration:0.6,ease:'expo.out'},0.1);
+tl.fromTo('#f04-sw',{autoAlpha:0,y:30},{autoAlpha:1,y:0,duration:0.6,ease:'power3.out'},0.35);
+tl.fromTo('#f04-c0',{x:0,y:0,scale:1,autoAlpha:1},{x:-400,y:70,scale:0.1,autoAlpha:0,duration:0.45,ease:'power3.in'},2.09);
+tl.fromTo('#f04-c1',{x:0,y:0,scale:1,autoAlpha:1},{x:-360,y:-70,scale:0.1,autoAlpha:0,duration:0.45,ease:'power3.in'},1.97);
+tl.fromTo('#f04-c2',{x:0,y:0,scale:1,autoAlpha:1},{x:-320,y:70,scale:0.1,autoAlpha:0,duration:0.45,ease:'power3.in'},1.85);
+tl.fromTo('#f04-c3',{x:0,y:0,scale:1,autoAlpha:1},{x:-280,y:-70,scale:0.1,autoAlpha:0,duration:0.45,ease:'power3.in'},1.73);
+tl.fromTo('#f04-c4',{x:0,y:0,scale:1,autoAlpha:1},{x:-240,y:70,scale:0.1,autoAlpha:0,duration:0.45,ease:'power3.in'},1.61);
+tl.fromTo('#f04-c5',{x:0,y:0,scale:1,autoAlpha:1},{x:-200,y:-70,scale:0.1,autoAlpha:0,duration:0.45,ease:'power3.in'},1.49);
+tl.fromTo('#f04-c6',{x:0,y:0,scale:1,autoAlpha:1},{x:-160,y:70,scale:0.1,autoAlpha:0,duration:0.45,ease:'power3.in'},1.37);
+tl.fromTo('#f04-c7',{x:0,y:0,scale:1,autoAlpha:1},{x:-120,y:-70,scale:0.1,autoAlpha:0,duration:0.45,ease:'power3.in'},1.25);
+tl.to('#f04-pre',{autoAlpha:0,duration:0.3},2.2);
+tl.fromTo('#f04-a1',{yPercent:110,autoAlpha:0},{yPercent:0,autoAlpha:1,duration:0.8,ease:'expo.out'},2.45);
+tl.fromTo('#f04-a2',{autoAlpha:0,y:14},{autoAlpha:1,y:0,duration:0.5,ease:'power3.out'},3.2);
+const pose=rig('f04-jf');
+function render(t){
+  // swims right->left through the word, mouth-first, gobbling letters
+  const u=seg(t,1.0,2.6);
+  const x=lerp(2150,-250,u), y=470+Math.sin(u*Math.PI*3)*40;
+  pose(x,y,-90+Math.sin(u*Math.PI*3)*12,0.8,t,1,1);
+}
+const clock={t:0};tl.to(clock,{t:D,duration:D,ease:'none',onUpdate:function(){render(clock.t);}},0);render(0);
+
+tl.to({},{duration:D},0);
+window.__timelines["04-atoms"]=tl;
+})();
+</script>
+</template>

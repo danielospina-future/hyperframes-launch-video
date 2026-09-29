@@ -1,0 +1,101 @@
+<template>
+<style>
+
+@font-face{font-family:'Inter';font-weight:400;font-style:normal;font-display:block;src:url("assets/fonts/inter-latin-400-normal.woff2") format('woff2');}
+@font-face{font-family:'Inter';font-weight:500;font-style:normal;font-display:block;src:url("assets/fonts/inter-latin-500-normal.woff2") format('woff2');}
+@font-face{font-family:'IBM Plex Mono';font-weight:400;font-style:normal;font-display:block;src:url("assets/fonts/ibm-plex-mono-latin-400-normal.woff2") format('woff2');}
+@font-face{font-family:'IBM Plex Mono';font-weight:500;font-style:normal;font-display:block;src:url("assets/fonts/ibm-plex-mono-latin-500-normal.woff2") format('woff2');}
+
+#root{position:relative;width:1920px;height:1080px;overflow:hidden;font-family:'Inter',sans-serif;color:#EEF1FF;}
+#f06-lives-bg{position:absolute;inset:0;background:#05070F;}
+#root .jf{position:absolute;left:0;top:0;width:260px;height:310px;transform-origin:130px 155px;}
+#root .jf svg{display:block;overflow:visible;}
+#root .mono{font-family:'IBM Plex Mono',monospace;font-weight:500;text-transform:uppercase;letter-spacing:0.14em;}
+
+#f06-copy{position:absolute;left:150px;top:170px;}
+#root .f06-line{overflow:hidden;padding-bottom:6px;}
+#root .f06-line span{display:inline-block;font-size:150px;font-weight:500;letter-spacing:-0.045em;line-height:1.0;}
+#root .f06-line em{font-style:normal;color:#1A4DFF;}
+#f06-ecg{position:absolute;left:0;top:0;}
+
+</style>
+<div id="root" data-composition-id="06-lives" data-width="1920" data-height="1080" data-duration="4">
+
+  <div id="f06-lives-bg" class="clip" data-start="0" data-duration="4" data-track-index="0"></div>
+  <div id="f06-lives-stage" class="clip" data-start="0" data-duration="4" data-track-index="1" style="position:absolute;inset:0;">
+
+<div id="f06-copy">
+  <div class="f06-line"><span id="f06-l1">more functional.</span></div>
+  <div class="f06-line"><span id="f06-l2">healthier.</span></div>
+  <div class="f06-line"><span id="f06-l3"><em>longer human lives.</em></span></div>
+</div>
+<svg id="f06-ecg" width="1920" height="1080" viewBox="0 0 1920 1080">
+  <path id="f06-path" d="M150 860 L760 860 L800 860 L830 800 L860 920 L890 760 L920 880 L950 860 L1770 860" fill="none" stroke="#1A4DFF" stroke-width="5" stroke-linejoin="round" stroke-linecap="round"/>
+</svg>
+<div class="jf" id="f06-jf"><svg viewBox="0 0 260 310" width="260" height="310">
+  <path class="jf-dome" fill="#1A4DFF" d="M0 155 L0 130 A130 130 0 0 1 260 130 L260 155 Z"/>
+  <rect class="jf-t" x="75" y="175" width="16" height="100" rx="8" fill="#1A4DFF"/>
+  <rect class="jf-t" x="122" y="175" width="16" height="135" rx="8" fill="#1A4DFF"/>
+  <rect class="jf-t" x="169" y="175" width="16" height="100" rx="8" fill="#1A4DFF"/>
+</svg></div>
+
+  </div>
+</div>
+<script>
+(function(){
+
+function rig(jid){
+  const el=document.getElementById(jid), dome=el.querySelector('.jf-dome'), ts=el.querySelectorAll('.jf-t');
+  gsap.set(dome,{transformOrigin:'50% 100%'}); ts.forEach(t=>gsap.set(t,{transformOrigin:'50% 0%'}));
+  return function(x,y,rot,s,t,tent,alpha){
+    tent=(tent===undefined)?1:tent; alpha=(alpha===undefined)?1:alpha;
+    const p=Math.sin(t*Math.PI*2/0.9);
+    gsap.set(el,{x:x-130,y:y-155,rotation:rot,scale:s,opacity:alpha});
+    gsap.set(dome,{scaleX:1+0.06*p,scaleY:1-0.07*p});
+    ts.forEach((r,i)=>gsap.set(r,{scaleY:Math.max(0,tent*(1+0.12*Math.sin(t*Math.PI*2/0.9-0.8-i*0.35))),skewX:7*Math.sin(t*Math.PI*2/1.1+i)}));
+  };
+}
+function clamp(v,a,b){return Math.max(a,Math.min(b,v));}
+function seg(t,a,b){return clamp((t-a)/(b-a),0,1);}
+function easeOut(u){return 1-Math.pow(1-u,3);}
+function easeInOut(u){return u<0.5?4*u*u*u:1-Math.pow(-2*u+2,3)/2;}
+function lerp(a,b,u){return a+(b-a)*u;}
+function heading(dx,dy){return Math.atan2(dy,dx)*180/Math.PI+90;}
+// Pure-math path sampler (M/L/C only): no DOM measurement, so it is seek-order independent.
+function mkPath(d){
+  const tk=d.match(/[MLC]|-?[0-9.]+/g); const pts=[]; let i=0,cx=0,cy=0,cmd='M';
+  while(i<tk.length){ if(/[MLC]/.test(tk[i])){cmd=tk[i++];}
+    if(cmd==='M'||cmd==='L'){cx=+tk[i++];cy=+tk[i++];pts.push([cx,cy]);}
+    else { const x1=+tk[i++],y1=+tk[i++],x2=+tk[i++],y2=+tk[i++],x3=+tk[i++],y3=+tk[i++];
+      for(let k=1;k<=60;k++){const t=k/60,m=1-t;pts.push([m*m*m*cx+3*m*m*t*x1+3*m*t*t*x2+t*t*t*x3,m*m*m*cy+3*m*m*t*y1+3*m*t*t*y2+t*t*t*y3]);}
+      cx=x3;cy=y3; } }
+  const cum=[0]; for(let k=1;k<pts.length;k++){cum.push(cum[k-1]+Math.hypot(pts[k][0]-pts[k-1][0],pts[k][1]-pts[k-1][1]));}
+  return {pts,cum,L:cum[cum.length-1]};
+}
+function at(P,s){s=clamp(s,0,P.L);let k=1;while(k<P.cum.length-1&&P.cum[k]<s)k++;const a=P.pts[k-1],b=P.pts[k],seg=(P.cum[k]-P.cum[k-1])||1,f=(s-P.cum[k-1])/seg;return [a[0]+(b[0]-a[0])*f,a[1]+(b[1]-a[1])*f];}
+function onPath(P,u){const s=clamp(u,0,1)*P.L,a=at(P,s),b=at(P,Math.min(P.L,s+6)),c=(b[0]===a[0]&&b[1]===a[1])?at(P,Math.max(0,s-6)):null;
+  const dx=c?a[0]-c[0]:b[0]-a[0],dy=c?a[1]-c[1]:b[1]-a[1];return {x:a[0],y:a[1],rot:heading(dx,dy)};}
+
+const D=3.5;
+const tl=gsap.timeline({paused:true});
+
+tl.fromTo('#f06-l1',{yPercent:110},{yPercent:0,duration:0.7,ease:'expo.out'},0.2);
+tl.fromTo('#f06-l2',{yPercent:110},{yPercent:0,duration:0.7,ease:'expo.out'},0.9);
+tl.fromTo('#f06-l3',{yPercent:110},{yPercent:0,duration:0.7,ease:'expo.out'},1.6);
+tl.to('#f06-l1',{opacity:0.45,duration:0.5},1.6);
+tl.to('#f06-l2',{opacity:0.7,duration:0.5},1.6);
+const path=document.getElementById('f06-path'), P=mkPath(path.getAttribute('d')), L=P.L;
+gsap.set(path,{strokeDasharray:L});
+const pose=rig('f06-jf');
+function render(t){
+  const u=seg(t,0.2,3.3); const p=onPath(P,u);
+  gsap.set(path,{strokeDashoffset:L*(1-u)});
+  pose(p.x,p.y-8,p.rot,0.32,t,1,u>0.995?0:1);
+}
+const clock={t:0};tl.to(clock,{t:D,duration:D,ease:'none',onUpdate:function(){render(clock.t);}},0);render(0);
+
+tl.to({},{duration:D},0);
+window.__timelines["06-lives"]=tl;
+})();
+</script>
+</template>

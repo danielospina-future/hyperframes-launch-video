@@ -1,0 +1,113 @@
+<template>
+<style>
+
+@font-face{font-family:'Inter';font-weight:400;font-style:normal;font-display:block;src:url("assets/fonts/inter-latin-400-normal.woff2") format('woff2');}
+@font-face{font-family:'Inter';font-weight:500;font-style:normal;font-display:block;src:url("assets/fonts/inter-latin-500-normal.woff2") format('woff2');}
+@font-face{font-family:'IBM Plex Mono';font-weight:400;font-style:normal;font-display:block;src:url("assets/fonts/ibm-plex-mono-latin-400-normal.woff2") format('woff2');}
+@font-face{font-family:'IBM Plex Mono';font-weight:500;font-style:normal;font-display:block;src:url("assets/fonts/ibm-plex-mono-latin-500-normal.woff2") format('woff2');}
+
+#root{position:relative;width:1920px;height:1080px;overflow:hidden;font-family:'Inter',sans-serif;color:#EEF1FF;}
+#f09-swim-away-bg{position:absolute;inset:0;background:#05070F;}
+#root .jf{position:absolute;left:0;top:0;width:260px;height:310px;transform-origin:130px 155px;}
+#root .jf svg{display:block;overflow:visible;}
+#root .mono{font-family:'IBM Plex Mono',monospace;font-weight:500;text-transform:uppercase;letter-spacing:0.14em;}
+
+#f09-circle{position:absolute;left:445px;top:25px;width:1030px;height:1030px;border-radius:50%;background:#1A4DFF;}
+#f09-mark{position:absolute;left:500px;top:376px;width:892px;height:326px;}
+#f09-cap{position:absolute;left:1300px;top:405px;width:110px;height:60px;border-radius:60px 60px 10px 10px;background:#05070F;}
+#f09-dot,#f09-dot2{position:absolute;left:1309px;top:364px;width:92px;height:92px;border-radius:50%;background:#1A4DFF;}
+#f09-trail{position:absolute;left:0;top:0;overflow:visible;}
+#f09-text{font-family:'Inter',sans-serif;font-weight:500;font-size:44px;letter-spacing:-0.01em;fill:#EEF1FF;}
+
+</style>
+<div id="root" data-composition-id="09-swim-away" data-width="1920" data-height="1080">
+
+  <div id="f09-swim-away-bg" class="clip" data-start="0" data-duration="8" data-track-index="0"></div>
+  <div id="f09-swim-away-stage" class="clip" data-start="0" data-duration="8" data-track-index="1" style="position:absolute;inset:0;">
+
+<div id="f09-circle"></div>
+<img id="f09-mark" src="assets/dorni-wordmark.png" alt="dorni">
+<div id="f09-cap"></div>
+<div id="f09-dot"></div>
+<div id="f09-dot2"></div>
+<svg id="f09-trail" width="1920" height="1080" viewBox="0 0 1920 1080">
+  <defs><clipPath id="f09-clip"><rect id="f09-reveal" x="0" y="0" width="0" height="1080"/></clipPath></defs>
+  <path id="f09-swim" d="M1355 410 C1330 300 1250 220 1100 205 C850 180 500 170 330 300 C230 420 225 620 255 790" fill="none" stroke="none"/>
+  <path id="f09-wave" d="M255 790 C515 760 765 820 1025 790 C1285 760 1535 820 1795 790" fill="none" stroke="none"/>
+  <text id="f09-text" clip-path="url(#f09-clip)"><textPath href="#f09-wave" startOffset="0">acquiring the brands that will help billions live longer, healthier lives.</textPath></text>
+</svg>
+<div class="jf" id="f09-jf"><svg viewBox="0 0 260 310" width="260" height="310">
+  <path class="jf-dome" fill="#1A4DFF" d="M0 155 L0 130 A130 130 0 0 1 260 130 L260 155 Z"/>
+  <rect class="jf-t" x="75" y="175" width="16" height="100" rx="8" fill="#1A4DFF"/>
+  <rect class="jf-t" x="122" y="175" width="16" height="135" rx="8" fill="#1A4DFF"/>
+  <rect class="jf-t" x="169" y="175" width="16" height="100" rx="8" fill="#1A4DFF"/>
+</svg></div>
+
+  </div>
+</div>
+<script>
+(function(){
+
+function rig(jid){
+  const el=document.getElementById(jid), dome=el.querySelector('.jf-dome'), ts=el.querySelectorAll('.jf-t');
+  gsap.set(dome,{transformOrigin:'50% 100%'}); ts.forEach(t=>gsap.set(t,{transformOrigin:'50% 0%'}));
+  return function(x,y,rot,s,t,tent,alpha){
+    tent=(tent===undefined)?1:tent; alpha=(alpha===undefined)?1:alpha;
+    const p=Math.sin(t*Math.PI*2/0.9);
+    gsap.set(el,{x:x-130,y:y-155,rotation:rot,scale:s,opacity:alpha});
+    gsap.set(dome,{scaleX:1+0.06*p,scaleY:1-0.07*p});
+    ts.forEach((r,i)=>gsap.set(r,{scaleY:Math.max(0,tent*(1+0.12*Math.sin(t*Math.PI*2/0.9-0.8-i*0.35))),skewX:7*Math.sin(t*Math.PI*2/1.1+i)}));
+  };
+}
+function clamp(v,a,b){return Math.max(a,Math.min(b,v));}
+function seg(t,a,b){return clamp((t-a)/(b-a),0,1);}
+function easeOut(u){return 1-Math.pow(1-u,3);}
+function easeInOut(u){return u<0.5?4*u*u*u:1-Math.pow(-2*u+2,3)/2;}
+function lerp(a,b,u){return a+(b-a)*u;}
+function heading(dx,dy){return Math.atan2(dy,dx)*180/Math.PI+90;}
+// Pure-math path sampler (M/L/C only): no DOM measurement, so it is seek-order independent.
+function mkPath(d){
+  const tk=d.match(/[MLC]|-?[0-9.]+/g); const pts=[]; let i=0,cx=0,cy=0,cmd='M';
+  while(i<tk.length){ if(/[MLC]/.test(tk[i])){cmd=tk[i++];}
+    if(cmd==='M'||cmd==='L'){cx=+tk[i++];cy=+tk[i++];pts.push([cx,cy]);}
+    else { const x1=+tk[i++],y1=+tk[i++],x2=+tk[i++],y2=+tk[i++],x3=+tk[i++],y3=+tk[i++];
+      for(let k=1;k<=60;k++){const t=k/60,m=1-t;pts.push([m*m*m*cx+3*m*m*t*x1+3*m*t*t*x2+t*t*t*x3,m*m*m*cy+3*m*m*t*y1+3*m*t*t*y2+t*t*t*y3]);}
+      cx=x3;cy=y3; } }
+  const cum=[0]; for(let k=1;k<pts.length;k++){cum.push(cum[k-1]+Math.hypot(pts[k][0]-pts[k-1][0],pts[k][1]-pts[k-1][1]));}
+  return {pts,cum,L:cum[cum.length-1]};
+}
+function at(P,s){s=clamp(s,0,P.L);let k=1;while(k<P.cum.length-1&&P.cum[k]<s)k++;const a=P.pts[k-1],b=P.pts[k],seg=(P.cum[k]-P.cum[k-1])||1,f=(s-P.cum[k-1])/seg;return [a[0]+(b[0]-a[0])*f,a[1]+(b[1]-a[1])*f];}
+function onPath(P,u){const s=clamp(u,0,1)*P.L,a=at(P,s),b=at(P,Math.min(P.L,s+6)),c=(b[0]===a[0]&&b[1]===a[1])?at(P,Math.max(0,s-6)):null;
+  const dx=c?a[0]-c[0]:b[0]-a[0],dy=c?a[1]-c[1]:b[1]-a[1];return {x:a[0],y:a[1],rot:heading(dx,dy)};}
+
+const D=8;
+const tl=gsap.timeline({paused:true});
+
+// circle collapses back into the dot of the i
+tl.fromTo('#f09-cap',{autoAlpha:1},{autoAlpha:0,duration:0.3},0.35);
+tl.fromTo('#f09-circle',{x:0,y:0,scale:1},{x:395,y:-130,scale:92/1030,duration:1.0,ease:'expo.inOut'},0.4);
+tl.set('#f09-circle',{autoAlpha:0},1.4);
+tl.fromTo('#f09-dot',{autoAlpha:0},{autoAlpha:1,duration:0.01},1.4);
+// the dot becomes the jellyfish
+tl.to('#f09-dot',{scale:0,duration:0.35,ease:'power2.in'},1.6);
+// a new dot is born on the i: it starts over
+tl.fromTo('#f09-dot2',{scale:0},{scale:1,duration:0.5,ease:'back.out(2.2)'},7.0);
+const swimP=mkPath(document.getElementById('f09-swim').getAttribute('d')), waveP=mkPath(document.getElementById('f09-wave').getAttribute('d')), reveal=document.getElementById('f09-reveal');
+const pose=rig('f09-jf');
+function render(t){
+  let x=1355,y=410,rot=0,s=0,tent=0,a=0;
+  if(t>=1.6&&t<2.2){const u=easeOut(seg(t,1.6,2.2));s=0.42*u;tent=u;a=1;y=410-10*u;}
+  else if(t>=2.2&&t<3.7){const p=onPath(swimP,easeInOut(seg(t,2.2,3.7)));x=p.x;y=p.y;rot=p.rot;s=0.42;tent=1;a=1;}
+  else if(t>=3.7&&t<6.6){const p=onPath(waveP,seg(t,3.7,6.6));x=p.x;y=p.y-70;rot=p.rot;s=0.42;tent=1;a=1;}
+  else if(t>=6.6){const u=seg(t,6.6,7.1);x=lerp(1795,2120,u);y=lerp(720,640,u);rot=70;s=0.42;tent=1;a=1;}
+  pose(x,y,rot,s,t,tent,a);
+  const w = t<3.7?0:(t<6.6?(x-20):1920);
+  reveal.setAttribute('width',Math.max(0,w));
+}
+const clock={t:0};tl.to(clock,{t:D,duration:D,ease:'none',onUpdate:function(){render(clock.t);}},0);render(0);
+
+tl.to({},{duration:D},0);
+window.__timelines["09-swim-away"]=tl;
+})();
+</script>
+</template>
