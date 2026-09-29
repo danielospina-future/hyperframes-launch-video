@@ -235,7 +235,7 @@ frames["04-atoms"] = (4.5, f"""
 <div id="f04-sw" data-layout-allow-overlap="true">{swspans}</div>
 <div id="f04-post" data-layout-allow-overlap="true">
   <div class="f04-line"><span id="f04-a1">the world of <em>atoms</em></span></div>
-  <div class="mono" id="f04-a2">is yet to be disrupted.</div>
+  <div class="mono" id="f04-a2">is still waiting.</div>
 </div>
 {jelly("f04-jf")}
 """, f"""

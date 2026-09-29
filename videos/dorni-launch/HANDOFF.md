@@ -54,8 +54,6 @@ Then: `npx hyperframes lint`, `npx hyperframes check`, snapshot at cuts, review,
 - Frame growth: fit-durations warns at >15%. Frame 2 (12 words + a pause in 4.5s) is the likely
   one; re-time its reveals in build-frames.py to the word timestamps in audio_meta.json so the
   on-screen line lands with the spoken word.
-- Frame 4 on-screen reads "is yet to be disrupted." while the approved VO says "is still waiting."
-  Left as is; ask the user whether to match the on-screen line to the VO.
 - Music: assemble sets the bed to 0.12 under VO. The swell should peak on the frame 8 lockup
   (no VO, ~28-32s). Per SKILL Step 5, compare the track's opening with later sections and trim with
   ffmpeg so the build lands there; short fade-in, longer fade-out, no silence at the tail. Consider

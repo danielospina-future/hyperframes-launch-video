@@ -76,7 +76,7 @@ keyMessage: Dorni is named after the jellyfish that never dies.
 
 - scene: "software" sits on screen; the jellyfish swims through and its tentacles pull the word apart letter by letter; "atoms" is left standing
 - voiceover: "AI has eaten software. But the world of atoms is still waiting."
-- on_screen: "ai has eaten software." / "the world of atoms" / "is yet to be disrupted."
+- on_screen: "ai has eaten software." / "the world of atoms" / "is still waiting."
 - duration: 4.5s
 - transition_in: push-slide LEFT
 - status: animated
