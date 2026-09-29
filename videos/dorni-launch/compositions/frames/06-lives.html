@@ -19,10 +19,10 @@
 #f06-ecg{position:absolute;left:0;top:0;}
 
 </style>
-<div id="root" data-composition-id="06-lives" data-width="1920" data-height="1080" data-duration="4">
+<div id="root" data-composition-id="06-lives" data-width="1920" data-height="1080" data-duration="4.7">
 
-  <div id="f06-lives-bg" class="clip" data-start="0" data-duration="4" data-track-index="0"></div>
-  <div id="f06-lives-stage" class="clip" data-start="0" data-duration="4" data-track-index="1" style="position:absolute;inset:0;">
+  <div id="f06-lives-bg" class="clip" data-start="0" data-duration="4.7" data-track-index="0"></div>
+  <div id="f06-lives-stage" class="clip" data-start="0" data-duration="4.7" data-track-index="1" style="position:absolute;inset:0;">
 
 <div id="f06-copy">
   <div class="f06-line"><span id="f06-l1">more functional.</span></div>
@@ -76,19 +76,19 @@ function at(P,s){s=clamp(s,0,P.L);let k=1;while(k<P.cum.length-1&&P.cum[k]<s)k++
 function onPath(P,u){const s=clamp(u,0,1)*P.L,a=at(P,s),b=at(P,Math.min(P.L,s+6)),c=(b[0]===a[0]&&b[1]===a[1])?at(P,Math.max(0,s-6)):null;
   const dx=c?a[0]-c[0]:b[0]-a[0],dy=c?a[1]-c[1]:b[1]-a[1];return {x:a[0],y:a[1],rot:heading(dx,dy)};}
 
-const D=3.5;
+const D=4.2;
 const tl=gsap.timeline({paused:true});
 
 tl.fromTo('#f06-l1',{yPercent:110},{yPercent:0,duration:0.7,ease:'expo.out'},0.2);
-tl.fromTo('#f06-l2',{yPercent:110},{yPercent:0,duration:0.7,ease:'expo.out'},0.9);
-tl.fromTo('#f06-l3',{yPercent:110},{yPercent:0,duration:0.7,ease:'expo.out'},1.6);
-tl.to('#f06-l1',{opacity:0.45,duration:0.5},1.6);
-tl.to('#f06-l2',{opacity:0.7,duration:0.5},1.6);
+tl.fromTo('#f06-l2',{yPercent:110},{yPercent:0,duration:0.7,ease:'expo.out'},1.2);
+tl.fromTo('#f06-l3',{yPercent:110},{yPercent:0,duration:0.7,ease:'expo.out'},2.25);
+tl.to('#f06-l1',{opacity:0.45,duration:0.5},2.25);
+tl.to('#f06-l2',{opacity:0.7,duration:0.5},2.25);
 const path=document.getElementById('f06-path'), P=mkPath(path.getAttribute('d')), L=P.L;
 gsap.set(path,{strokeDasharray:L});
 const pose=rig('f06-jf');
 function render(t){
-  const u=seg(t,0.2,3.3); const p=onPath(P,u);
+  const u=seg(t,0.2,3.9); const p=onPath(P,u);
   gsap.set(path,{strokeDashoffset:L*(1-u)});
   pose(p.x,p.y-8,p.rot,0.32,t,1,u>0.995?0:1);
 }

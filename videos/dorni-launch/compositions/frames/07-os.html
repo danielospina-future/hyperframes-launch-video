@@ -24,10 +24,10 @@
 #root .f07-tag{position:relative;z-index:1;font-size:16px;color:#8FA6FF;margin-top:18px;}
 
 </style>
-<div id="root" data-composition-id="07-os" data-width="1920" data-height="1080" data-duration="5.1">
+<div id="root" data-composition-id="07-os" data-width="1920" data-height="1080" data-duration="5.5">
 
-  <div id="f07-os-bg" class="clip" data-start="0" data-duration="5.1" data-track-index="0"></div>
-  <div id="f07-os-stage" class="clip" data-start="0" data-duration="5.1" data-track-index="1" style="position:absolute;inset:0;">
+  <div id="f07-os-bg" class="clip" data-start="0" data-duration="5.5" data-track-index="0"></div>
+  <div id="f07-os-stage" class="clip" data-start="0" data-duration="5.5" data-track-index="1" style="position:absolute;inset:0;">
 
 <div id="f07-head"><span id="f07-h1">d2c health brands,</span> <span id="f07-h2">enhanced by <em>dorni os.</em></span></div>
 <div class="mono" id="f07-label">dorni os</div>
@@ -83,7 +83,7 @@ function at(P,s){s=clamp(s,0,P.L);let k=1;while(k<P.cum.length-1&&P.cum[k]<s)k++
 function onPath(P,u){const s=clamp(u,0,1)*P.L,a=at(P,s),b=at(P,Math.min(P.L,s+6)),c=(b[0]===a[0]&&b[1]===a[1])?at(P,Math.max(0,s-6)):null;
   const dx=c?a[0]-c[0]:b[0]-a[0],dy=c?a[1]-c[1]:b[1]-a[1];return {x:a[0],y:a[1],rot:heading(dx,dy)};}
 
-const D=4.5;
+const D=4.9;
 const tl=gsap.timeline({paused:true});
 
 tl.fromTo('#f07-h1',{autoAlpha:0,y:24},{autoAlpha:1,y:0,duration:0.6,ease:'power3.out'},0.2);
@@ -93,7 +93,7 @@ for(let i=0;i<4;i++){
   tl.fromTo('#f07-tag'+i,{color:'#8FA6FF'},{color:'#1A4DFF',duration:0.3},1.95+i*0.28);
 }
 tl.fromTo('#f07-label',{autoAlpha:0,x:-10},{autoAlpha:1,x:0,duration:0.4},1.1);
-tl.fromTo('#f07-h2',{autoAlpha:0,y:24},{autoAlpha:1,y:0,duration:0.6,ease:'power3.out'},2.7);
+tl.fromTo('#f07-h2',{autoAlpha:0,y:24},{autoAlpha:1,y:0,duration:0.6,ease:'power3.out'},2.45);
 const wires=[0,1,2,3].map(i=>document.getElementById('f07-w'+i)), WL=wires.map(w=>mkPath(w.getAttribute('d')).L);
 wires.forEach((w,i)=>gsap.set(w,{strokeDasharray:WL[i],strokeDashoffset:WL[i]}));
 const pose=rig('f07-jf');

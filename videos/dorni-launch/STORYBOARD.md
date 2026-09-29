@@ -1,6 +1,6 @@
 ---
 format: 1920x1080
-duration: 40s
+duration: 43.5s
 message: "AI ate software; now Dorni brings those tools to the world of atoms, building D2C health brands that last forever, like the immortal jellyfish."
 arc: Future Pacing (imagine → name → shift → mechanism → outcome → brand)
 audience: general launch (LinkedIn, press, ecosystem)
@@ -25,6 +25,7 @@ Reading pace: every on-screen line holds long enough to read twice. Close on the
 - voiceover: "There's a jellyfish that can live forever."
 - on_screen: "TURRITOPSIS DOHRNII" / "there's a jellyfish that can live forever."
 - duration: 4s
+- visual_duration: 4s
 - transition_in: cut
 - status: animated
 - src: compositions/frames/01-immortal.html
@@ -42,7 +43,8 @@ keyMessage: immortality exists in nature.
 - scene: A mono AGE readout climbs, then rewinds (◀◀) while the jellyfish shrinks back to a dot and blooms again
 - voiceover: "When it grows old, it simply turns young again... and starts over."
 - on_screen: "when it grows old," / "it turns young again." / "and starts over."
-- duration: 4.5s
+- duration: 5.1s
+- visual_duration: 4.5s
 - transition_in: crossfade
 - status: animated
 - src: compositions/frames/02-rewind.html
@@ -59,7 +61,8 @@ keyMessage: it resets instead of dying.
 - scene: The species name "dohrnii" sits huge; the extra letters drop away and it snaps into the "dorni" wordmark, the jellyfish settling as the dot of the i
 - voiceover: "Its name is dohrnii. Ours is Dorni."
 - on_screen: "dohrnii" / "dorni"
-- duration: 3s
+- duration: 3.9s
+- visual_duration: 3s
 - transition_in: crossfade
 - status: animated
 - src: compositions/frames/03-name.html
@@ -77,7 +80,8 @@ keyMessage: Dorni is named after the jellyfish that never dies.
 - scene: "software" sits on screen; the jellyfish swims through and its tentacles pull the word apart letter by letter; "atoms" is left standing
 - voiceover: "AI has eaten software. But the world of atoms is still waiting."
 - on_screen: "ai has eaten software." / "the world of atoms" / "is still waiting."
-- duration: 4.5s
+- duration: 5.4s
+- visual_duration: 4.5s
 - transition_in: push-slide LEFT
 - status: animated
 - src: compositions/frames/04-atoms.html
@@ -95,6 +99,7 @@ keyMessage: the physical world is the next frontier.
 - voiceover: "Now we have the tools to make brands last forever."
 - on_screen: "now we have the tools" / "to make brands last forever."
 - duration: 3.5s
+- visual_duration: 3.5s
 - transition_in: zoom-through
 - status: animated
 - src: compositions/frames/05-forever.html
@@ -111,7 +116,8 @@ keyMessage: Dorni makes brands immortal.
 - scene: Three words stack as a fadelist while the jellyfish's tentacles draw a pulse line under them
 - voiceover: "More functional. Healthier. Longer human lives."
 - on_screen: "more functional." / "healthier." / "longer human lives."
-- duration: 3.5s
+- duration: 4.2s
+- visual_duration: 3.5s
 - transition_in: crossfade
 - status: animated
 - src: compositions/frames/06-lives.html
@@ -127,7 +133,8 @@ keyMessage: the point is healthier, longer lives.
 - scene: The jellyfish becomes a hub labelled DORNI OS; its tentacles extend down and plug into four navy brand cards (metabolic health · functional nutrition · sleep & recovery · movement & mobility), each lighting up blue as it connects
 - voiceover: "D2C health brands, enhanced by Dorni OS."
 - on_screen: "d2c health brands," / "enhanced by dorni os."
-- duration: 4.5s
+- duration: 4.9s
+- visual_duration: 4.5s
 - transition_in: crossfade
 - status: animated
 - src: compositions/frames/07-os.html
@@ -145,6 +152,7 @@ keyMessage: Dorni OS enhances every brand it owns.
 - scene: The user's sting takes over from its swim-home moment: the jellyfish lands as the dot of the i, the blue circle blooms, lockup holds
 - voiceover: ""
 - duration: 4.5s
+- visual_duration: 4.5s
 - transition_in: blur-crossfade
 - status: animated
 - src: compositions/frames/08-lockup.html
@@ -161,8 +169,10 @@ keyMessage: dorni.
 
 - scene: The blue circle collapses back into the dot of the i; the dot becomes the jellyfish and swims off in a long arc, its trail writing the closing line; a new dot is born on the i
 - voiceover: "Acquiring the brands that will help billions live longer, healthier lives."
+- voice_offset: 3s
 - on_screen: "acquiring the brands that will help billions live longer, healthier lives."
 - duration: 8s
+- visual_duration: 8s
 - transition_in: cut
 - status: animated
 - src: compositions/frames/09-swim-away.html

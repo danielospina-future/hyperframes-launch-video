@@ -81,7 +81,7 @@ const D=3.5;
 const tl=gsap.timeline({paused:true});
 
 tl.fromTo('#f05-l1',{yPercent:110},{yPercent:0,duration:0.7,ease:'expo.out'},0.35);
-tl.fromTo('#f05-l2',{yPercent:110},{yPercent:0,duration:0.8,ease:'expo.out'},1.0);
+tl.fromTo('#f05-l2',{yPercent:110},{yPercent:0,duration:0.8,ease:'expo.out'},1.4);
 const path=document.getElementById('f05-path'), P=mkPath(path.getAttribute('d')), L=P.L;
 gsap.set(path,{strokeDasharray:L});
 const pose=rig('f05-jf');

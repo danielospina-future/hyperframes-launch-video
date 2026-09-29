@@ -1,61 +1,55 @@
-# Handoff: generate HeyGen voiceover + music, then re-render
+# Handoff: Dorni launch film (narrated)
 
-State (2026-09-29): 40s silent film rendered (renders/video.mp4). Narration **approved as drafted**
-and locked in SCRIPT.md. Storyboard switched from silent to VO + music. Only the HeyGen calls are
-left, and they were blocked last session.
+State (2026-09-29): 43.5s film with HeyGen voiceover + music, rendered to renders/video.mp4.
+Previous silent cut was 40s; frames grew to fit the voice (tools/fit-durations.mjs).
 
-## Blocker from last session
-The environment's network policy allows `*.heygen.ai` but not `api.heygen.com`, and the HeyGen
-engine hardcodes `https://api.heygen.com/v3` (media-use/audio/scripts/lib/heygen.mjs).
-`api.heygen.ai` only 301s to heygen.com. Add `api.heygen.com` (or `*.heygen.com`) to the
-environment's allowed domains, then verify: `npx hyperframes auth status` must show the API check
-passing. If audio downloads then fail, check `curl -sS "$HTTPS_PROXY/__agentproxy/status"` for the
-host the audio/music files are served from and allow it too.
+## Locked decisions
+- Narration: SCRIPT.md, approved as drafted. Frame 8 (lockup) has no VO.
+- Voice: HeyGen "Resonant Docu-Pro" `aiXCV9D0yx4ptgZ3piiy` (warm male, documentary). Picked from a
+  12-voice audition on Lines 2+3 by measured pitch/pace/pronunciation length, not by ear.
+  Alternates: Samuel-Narration `6e51a203c3e74398ae8046f3c320abf6`, Harry-Narration `6648fd92bcba41df809a01712faf9a4a`.
+- Music: HeyGen library track 3164530a ("deep atmospheric bass drone, rising triumphant cinematic
+  swell"), assets/bgm/library-3164530a.flac. The pipeline's default top hit had disco undertones.
+- Frame 4 on-screen line matches the VO: "is still waiting."
 
-## User decisions (locked)
-- Narration: SCRIPT.md, exactly as drafted. Frame 8 has no VO.
-- Voice: warm male, documentary style (HeyGen Starfish).
-- Music: "deep ambient, underwater synths building to a hopeful swell" (STORYBOARD `music:`).
+## How the audio is built
+- `audio.mjs` (skill) → assets/voice/NN.wav + audio_meta.json (word timings).
+- HeyGen ignores "..."; pauses are `<break time="0.7s"/>` in SCRIPT.md. "D2C" is spelled "D-to-C"
+  for TTS (HeyGen stumbled on it). On-screen text is unaffected.
+- `tools/fit-durations.mjs`: duration = max(visual_duration, voice_offset + voice + 0.5s). Use it
+  instead of the skill's sync-durations, which would shrink frames to raw voice length.
+- `voice_offset:` (storyboard, frame 9 = 3s) delays a frame's voice; frame 9's VO is read while
+  the jellyfish writes the same line.
+- `tools/mix.mjs prep` cuts assets/bgm/bed.mp3 from the library track: from 7s (swell lands on the
+  frame 8 lockup at ~31s), -8 dB, 1.5s fade in, 3s fade out, fitted to the film length.
+  Offset and level are baked into the file because the carve reads the file from sample 0 and
+  ignores data-volume / data-media-start.
+- `tools/mix.mjs patch` groups the narration as `voiceover`, applies voice offsets, checks length.
+- Voiceover carve (hyperframes-audio carve.mjs, strength 0.8, dynamic) on el-bgm against the group.
+- `tools/mix.mjs release` then opens the carve's level duck for frames with no VO: it ramps to
+  0 dB over 30.45-31.0s (the crossfade into the lockup) and stays open until frame 9's voice. The
+  carve's slow release otherwise held the bed ~10 dB down through the lockup (measured -24 LUFS).
+- Measured on the render: -14.3 LUFS integrated, -1.6 dBFS peak; narration ~-15 to -17 LUFS;
+  lockup swell -19 → -16 LUFS.
+- Frame reveals in build-frames.py are timed to the word timestamps (frames 2, 3, 4, 5, 6, 7).
 
-## Container setup (ephemeral, redo each session)
-- `apt-get install -y ffmpeg libnss3-tools`
-- Trust proxy CA for Chromium: `mkdir -p ~/.pki/nssdb && certutil -d sql:$HOME/.pki/nssdb -N --empty-password && certutil -d sql:$HOME/.pki/nssdb -A -t "C,," -n ccr -i /root/.ccr/agent-proxy-ca.crt`
-- Reinstall plugin: `claude plugin marketplace add heygen-com/hyperframes && claude plugin install hyperframes@hyperframes`
-- `tools/rebuild.sh` now picks the newest installed plugin version (was pinned to 0.8.86; 0.8.92
-  reproduces the silent cut byte-for-byte).
-
-## Steps
+## Rebuild / render
 ```bash
 cd videos/dorni-launch
-P=$(ls -d /root/.claude/plugins/cache/hyperframes/hyperframes/*/skills | sort -V | tail -1)
-
-# 1. Voice: list Starfish voices, shortlist 2-3 warm male documentary voices, audition Lines 2+3
-node $P/media-use/audio/scripts/heygen-tts.mjs --list
-node $P/media-use/audio/scripts/heygen-tts.mjs "Its name is dohrnii. Ours is Dorni." -o /tmp/a.wav --voice <id>
-
-# 2. Narration + music (HeyGen TTS with word timings; BGM retrieved from HeyGen's library)
-node $P/product-launch-video/scripts/audio.mjs --script ./SCRIPT.md --storyboard ./STORYBOARD.md \
-  --hyperframes . --out ./audio_meta.json --provider heygen --voice <id>
-
-# 3. Fit durations. Do NOT run the skill's sync-durations: it sets duration = raw voice length,
-#    which shrinks frames and cuts the absolute-timed animation (frame 9's swim-away).
-node tools/fit-durations.mjs        # duration = max(visual_duration, voice + 0.5s)
-
-# 4. Rebuild (build-frames.py now reads durations from STORYBOARD.md; assemble picks up audio_meta.json)
-bash tools/rebuild.sh
+apt-get install -y ffmpeg libnss3-tools          # per container
+mkdir -p ~/.pki/nssdb && certutil -d sql:$HOME/.pki/nssdb -N --empty-password && \
+  certutil -d sql:$HOME/.pki/nssdb -A -t "C,," -n ccr -i /root/.ccr/agent-proxy-ca.crt   # Chromium trusts proxy
+claude plugin marketplace add heygen-com/hyperframes && claude plugin install hyperframes@hyperframes
+npm i                                            # @hyperframes/core for the carve
+bash tools/rebuild.sh                            # frames, bed, assemble, transitions, mix, carve
+npx hyperframes lint && npx hyperframes check
+npx hyperframes render --skill=product-launch-video --quality high --output renders/video.mp4
 ```
-Then: `npx hyperframes lint`, `npx hyperframes check`, snapshot at cuts, review, render
-(`npx hyperframes render --skill=product-launch-video --quality high --output renders/video.mp4`).
+To change the voice: edit the voice id in SCRIPT.md's header, rerun `audio.mjs ... --voice <id>`
+(see product-launch-video SKILL Step 3.1), then `node tools/fit-durations.mjs` and the rebuild.
+To move the swell: change `offset` / `gainDb` in tools/mix.mjs and rebuild.
 
-## Things to listen/check for
-- Pronunciation: "dohrnii" (DOR-nee-eye), "Dorni" (DOR-nee; the pun needs them to sound related),
-  "D2C" (D-to-C). If HeyGen mangles one, respell only the spoken text in SCRIPT.md (e.g.
-  "Dor-nee-eye", "Dornee", "D-to-C") and regenerate that line.
-- Frame growth: fit-durations warns at >15%. Frame 2 (12 words + a pause in 4.5s) is the likely
-  one; re-time its reveals in build-frames.py to the word timestamps in audio_meta.json so the
-  on-screen line lands with the spoken word.
-- Music: assemble sets the bed to 0.12 under VO. The swell should peak on the frame 8 lockup
-  (no VO, ~28-32s). Per SKILL Step 5, compare the track's opening with later sections and trim with
-  ffmpeg so the build lands there; short fade-in, longer fade-out, no silence at the tail. Consider
-  lifting the bed for frame 8 and the last ~2s of frame 9.
-- Captions: skip. On-screen type already carries every line.
+## Known
+- `check` flags 5 contrast warnings on frame 7's small "a dorni brand" tags (blue on navy), sampled
+  mid-crossfade. Unchanged from the approved silent cut's design.
+- Captions skipped: on-screen type already carries every line.

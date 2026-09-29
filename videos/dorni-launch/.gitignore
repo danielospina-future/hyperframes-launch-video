@@ -1,3 +1,5 @@
 snapshots/**/*.png
 snapshots/fix/
 __pycache__/
+renders/work-*/
+renders/.*.hf-transaction-*/

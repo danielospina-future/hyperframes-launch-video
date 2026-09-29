@@ -24,10 +24,10 @@
 #f02-fill{height:6px;width:760px;background:#1A4DFF;transform-origin:left center;}
 
 </style>
-<div id="root" data-composition-id="02-rewind" data-width="1920" data-height="1080" data-duration="5">
+<div id="root" data-composition-id="02-rewind" data-width="1920" data-height="1080" data-duration="5.6">
 
-  <div id="f02-rewind-bg" class="clip" data-start="0" data-duration="5" data-track-index="0"></div>
-  <div id="f02-rewind-stage" class="clip" data-start="0" data-duration="5" data-track-index="1" style="position:absolute;inset:0;">
+  <div id="f02-rewind-bg" class="clip" data-start="0" data-duration="5.6" data-track-index="0"></div>
+  <div id="f02-rewind-stage" class="clip" data-start="0" data-duration="5.6" data-track-index="1" style="position:absolute;inset:0;">
 
 <div id="f02-copy">
   <div class="f02-line"><span id="f02-l1">when it grows old,</span></div>
@@ -82,7 +82,7 @@ function at(P,s){s=clamp(s,0,P.L);let k=1;while(k<P.cum.length-1&&P.cum[k]<s)k++
 function onPath(P,u){const s=clamp(u,0,1)*P.L,a=at(P,s),b=at(P,Math.min(P.L,s+6)),c=(b[0]===a[0]&&b[1]===a[1])?at(P,Math.max(0,s-6)):null;
   const dx=c?a[0]-c[0]:b[0]-a[0],dy=c?a[1]-c[1]:b[1]-a[1];return {x:a[0],y:a[1],rot:heading(dx,dy)};}
 
-const D=4.5;
+const D=5.1;
 const tl=gsap.timeline({paused:true});
 
 tl.fromTo('#f02-l1',{yPercent:110},{yPercent:0,duration:0.7,ease:'expo.out'},0.2);
@@ -91,14 +91,14 @@ tl.fromTo('#f02-fill',{scaleX:0.02},{scaleX:1,duration:1.3,ease:'power1.in'},0.4
 tl.fromTo('#f02-rw',{autoAlpha:0},{autoAlpha:1,duration:0.15},1.8);
 tl.to('#f02-fill',{scaleX:0.02,duration:0.9,ease:'power3.inOut'},1.85);
 tl.fromTo('#f02-l2',{yPercent:110},{yPercent:0,duration:0.7,ease:'expo.out'},1.9);
-tl.fromTo('#f02-l3',{yPercent:110},{yPercent:0,duration:0.7,ease:'expo.out'},3.1);
+tl.fromTo('#f02-l3',{yPercent:110},{yPercent:0,duration:0.7,ease:'expo.out'},3.35);
 const pose=rig('f02-jf'), jd=document.querySelector('#f02-jf .jf-dome'), jts=document.querySelectorAll('#f02-jf .jf-t');
 function render(t){
-  // age up (0.4-1.7): grows, droops, fades toward mist; rewind (1.85-2.75): shrinks to a speck; rebirth (2.8-3.5)
+  // age up (0.4-1.7): grows, droops, fades toward mist; rewind (1.85-2.75): shrinks to a speck; holds through the VO pause; rebirth on "and starts over" (3.3-4.0)
   let s, tent=1, drift=Math.sin(t*2)*10, rot=Math.sin(t*1.4)*4, col;
-  const age=seg(t,0.4,1.7), back=easeInOut(seg(t,1.85,2.75)), born=easeOut(seg(t,2.8,3.5));
+  const age=seg(t,0.4,1.7), back=easeInOut(seg(t,1.85,2.75)), born=easeOut(seg(t,3.3,4.0));
   if(t<1.85){s=lerp(0.9,1.45,age);tent=lerp(1,1.5,age);rot+=age*14;col=age;}
-  else if(t<2.8){s=lerp(1.45,0.12,back);tent=lerp(1.5,0.2,back);col=1-back;}
+  else if(t<3.3){s=lerp(1.45,0.12,back);tent=lerp(1.5,0.2,back);col=1-back;}
   else{s=lerp(0.12,1.0,born);tent=lerp(0.2,1,born);col=0;}
   const c=gsap.utils.interpolate('#1A4DFF','#8FA6FF',col*0.8);
   gsap.set(jd,{fill:c});jts.forEach(r=>gsap.set(r,{fill:c}));

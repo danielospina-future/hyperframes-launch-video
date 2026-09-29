@@ -23,10 +23,10 @@
 #f04-a2{font-size:34px;color:#EEF1FF;margin-top:36px;}
 
 </style>
-<div id="root" data-composition-id="04-atoms" data-width="1920" data-height="1080" data-duration="4.9">
+<div id="root" data-composition-id="04-atoms" data-width="1920" data-height="1080" data-duration="5.8">
 
-  <div id="f04-atoms-bg" class="clip" data-start="0" data-duration="4.9" data-track-index="0"></div>
-  <div id="f04-atoms-stage" class="clip" data-start="0" data-duration="4.9" data-track-index="1" style="position:absolute;inset:0;">
+  <div id="f04-atoms-bg" class="clip" data-start="0" data-duration="5.8" data-track-index="0"></div>
+  <div id="f04-atoms-stage" class="clip" data-start="0" data-duration="5.8" data-track-index="1" style="position:absolute;inset:0;">
 
 <div id="f04-pre"><span id="f04-p1">ai has eaten</span></div>
 <div id="f04-sw" data-layout-allow-overlap="true"><span class="f04-ch" data-layout-allow-overlap="true" id="f04-c0">s</span><span class="f04-ch" data-layout-allow-overlap="true" id="f04-c1">o</span><span class="f04-ch" data-layout-allow-overlap="true" id="f04-c2">f</span><span class="f04-ch" data-layout-allow-overlap="true" id="f04-c3">t</span><span class="f04-ch" data-layout-allow-overlap="true" id="f04-c4">w</span><span class="f04-ch" data-layout-allow-overlap="true" id="f04-c5">a</span><span class="f04-ch" data-layout-allow-overlap="true" id="f04-c6">r</span><span class="f04-ch" data-layout-allow-overlap="true" id="f04-c7">e</span></div>
@@ -78,7 +78,7 @@ function at(P,s){s=clamp(s,0,P.L);let k=1;while(k<P.cum.length-1&&P.cum[k]<s)k++
 function onPath(P,u){const s=clamp(u,0,1)*P.L,a=at(P,s),b=at(P,Math.min(P.L,s+6)),c=(b[0]===a[0]&&b[1]===a[1])?at(P,Math.max(0,s-6)):null;
   const dx=c?a[0]-c[0]:b[0]-a[0],dy=c?a[1]-c[1]:b[1]-a[1];return {x:a[0],y:a[1],rot:heading(dx,dy)};}
 
-const D=4.5;
+const D=5.4;
 const tl=gsap.timeline({paused:true});
 
 tl.fromTo('#f04-p1',{yPercent:110},{yPercent:0,duration:0.6,ease:'expo.out'},0.1);
@@ -93,7 +93,7 @@ tl.fromTo('#f04-c6',{x:0,y:0,scale:1,autoAlpha:1},{x:-160,y:70,scale:0.1,autoAlp
 tl.fromTo('#f04-c7',{x:0,y:0,scale:1,autoAlpha:1},{x:-120,y:-70,scale:0.1,autoAlpha:0,duration:0.45,ease:'power3.in'},1.25);
 tl.to('#f04-pre',{autoAlpha:0,duration:0.3},2.2);
 tl.fromTo('#f04-a1',{yPercent:110,autoAlpha:0},{yPercent:0,autoAlpha:1,duration:0.8,ease:'expo.out'},2.45);
-tl.fromTo('#f04-a2',{autoAlpha:0,y:14},{autoAlpha:1,y:0,duration:0.5,ease:'power3.out'},3.2);
+tl.fromTo('#f04-a2',{autoAlpha:0,y:14},{autoAlpha:1,y:0,duration:0.5,ease:'power3.out'},3.6);
 const pose=rig('f04-jf');
 function render(t){
   // swims right->left through the word, mouth-first, gobbling letters

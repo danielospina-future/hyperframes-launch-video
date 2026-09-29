@@ -1,7 +1,8 @@
 # SCRIPT — dorni-launch
 
-**Voice:** HeyGen Starfish, warm male (voice id picked from `GET /v3/voices?engine=starfish`, recorded in HANDOFF.md)
-**Voice settings:** speed 1.0
+**Voice:** HeyGen, "Resonant Docu-Pro" (`aiXCV9D0yx4ptgZ3piiy`), warm male documentary. Alternates from the
+audition: Samuel-Narration (`6e51a203c3e74398ae8046f3c320abf6`), Harry-Narration (`6648fd92bcba41df809a01712faf9a4a`).
+**Voice settings:** speed 1.0. HeyGen ignores "..."; pauses are written as `<break time="Ns"/>` (not spoken).
 **Voice direction:** Warm male, documentary style. Low register, unhurried, curious. A nature narrator
 who happens to be telling a company story: let the science lines breathe, then land the thesis with
 calm confidence. Never salesy.
@@ -23,7 +24,7 @@ and the sting carry it.
 **Time:** 4.0 – 8.5s
 **Delivery:** Storyteller pace. Real pause at the ellipsis, then a small smile on "starts over".
 
-    When it grows old, it simply turns young again... and starts over.
+    When it grows old, it simply turns young again <break time="0.7s"/> and starts over.
 
 ## Line 3 — dohrnii → dorni (Frame 3)
 
@@ -56,9 +57,9 @@ and the sting carry it.
 ## Line 7 — Enhanced by Dorni OS (Frame 7)
 
 **Time:** 23.0 – 27.5s
-**Delivery:** Clear and grounded. "D-to-C". Small emphasis on "Dorni OS".
+**Delivery:** Clear and grounded. Small emphasis on "Dorni OS". Spelled "D-to-C" for TTS (HeyGen stumbles on "D2C").
 
-    D2C health brands, enhanced by Dorni OS.
+    D-to-C health brands, enhanced by Dorni OS.
 
 ## Line 9 — Swim away (Frame 9)
 

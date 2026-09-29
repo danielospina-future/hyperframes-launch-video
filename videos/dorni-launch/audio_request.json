@@ -1,0 +1,45 @@
+{
+  "provider": "heygen",
+  "speed": 1,
+  "lines": [
+    {
+      "id": "01",
+      "text": "There's a jellyfish that can live forever."
+    },
+    {
+      "id": "02",
+      "text": "When it grows old, it simply turns young again <break time=\"0.7s\"/> and starts over."
+    },
+    {
+      "id": "03",
+      "text": "Its name is dohrnii. Ours is Dorni."
+    },
+    {
+      "id": "04",
+      "text": "AI has eaten software. But the world of atoms is still waiting."
+    },
+    {
+      "id": "05",
+      "text": "Now we have the tools to make brands last forever."
+    },
+    {
+      "id": "06",
+      "text": "More functional. Healthier. Longer human lives."
+    },
+    {
+      "id": "07",
+      "text": "D-to-C health brands, enhanced by Dorni OS."
+    },
+    {
+      "id": "09",
+      "text": "Acquiring the brands that will help billions live longer, healthier lives."
+    }
+  ],
+  "bgm": {
+    "mode": "retrieve",
+    "query": "deep ambient, underwater synths building to a hopeful swell",
+    "blob": "AI ate software; now Dorni brings those tools to the world of atoms, building D2C health brands that last forever, like the immortal jellyfish.",
+    "arc": "Future Pacing (imagine → name → shift → mechanism → outcome → brand)"
+  },
+  "voice": "aiXCV9D0yx4ptgZ3piiy"
+}

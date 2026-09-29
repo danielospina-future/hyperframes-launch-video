@@ -4,8 +4,9 @@
 // The skill's `audio.mjs sync-durations` sets duration = raw voice length. This film was cut
 // silent first with absolute-second animation timings, so that would shrink frames and cut
 // animation (frame 9's 8s swim-away would drop to ~5s). Instead:
-//   duration = max(visual_duration, voice + TAIL)
+//   duration = max(visual_duration, voice_offset + voice + TAIL)
 // `visual_duration` is written once (the original silent-cut length), so re-runs are idempotent.
+// `voice_offset` (optional, per frame) delays that frame's voice; tools/mix.mjs applies it.
 //
 //   node tools/fit-durations.mjs [--audio-meta ./audio_meta.json] [--tail 0.5]
 import { readFileSync, writeFileSync } from "node:fs";
@@ -23,34 +24,38 @@ const voice = new Map((meta.voices ?? []).map((v) => [v.frame, v.duration_s]));
 
 const sbPath = join(ROOT, "STORYBOARD.md");
 const lines = readFileSync(sbPath, "utf8").split("\n");
-let frame = null;
-let visual = null;
+
+// Pass 1: per frame, where its duration line is and what it already declares.
+const frames = new Map();
+let cur = null;
+lines.forEach((line, i) => {
+  const h = line.match(/^## Frame (\d+)/);
+  if (h) frames.set((cur = Number(h[1])), { durLine: -1, visual: null, offset: 0 });
+  if (cur == null) return;
+  const f = frames.get(cur);
+  let m;
+  if ((m = line.match(/^- duration:\s*([0-9.]+)s?/))) Object.assign(f, { durLine: i, cur: Number(m[1]) });
+  if ((m = line.match(/^- visual_duration:\s*([0-9.]+)s?/))) f.visual = Number(m[1]);
+  if ((m = line.match(/^- voice_offset:\s*([0-9.]+)s?/))) f.offset = Number(m[1]);
+});
+
+// Pass 2: rewrite bottom-up so inserted visual_duration lines don't shift later indexes.
 let total = 0;
-for (let i = 0; i < lines.length; i++) {
-  const h = lines[i].match(/^## Frame (\d+)/);
-  if (h) {
-    frame = Number(h[1]);
-    visual = null;
-    continue;
-  }
-  const vd = lines[i].match(/^- visual_duration:\s*([0-9.]+)s?/);
-  if (vd) visual = Number(vd[1]);
-  const d = lines[i].match(/^- duration:\s*([0-9.]+)s?/);
-  if (!d || frame == null) continue;
-  const cur = Number(d[1]);
-  // visual_duration sits right after duration once written; peek so re-runs use it.
-  const next = lines[i + 1]?.match(/^- visual_duration:\s*([0-9.]+)s?/);
-  const base = visual ?? (next ? Number(next[1]) : cur);
-  const v = voice.get(frame);
-  const fit = v ? Math.max(base, Math.ceil((v + TAIL) * 10) / 10) : base;
-  lines[i] = `- duration: ${fit}s`;
-  if (!next) lines.splice(i + 1, 0, `- visual_duration: ${base}s`);
+const report = [];
+for (const [n, f] of [...frames].sort((a, b) => b[1].durLine - a[1].durLine)) {
+  if (f.durLine < 0) continue;
+  const base = f.visual ?? f.cur;
+  const v = voice.get(n);
+  const fit = v ? Math.max(base, Math.ceil((f.offset + v + TAIL) * 10) / 10) : base;
+  lines[f.durLine] = `- duration: ${fit}s`;
+  if (f.visual == null) lines.splice(f.durLine + 1, 0, `- visual_duration: ${base}s`);
   total += fit;
   const grow = fit / base - 1;
-  console.log(
-    `frame ${frame}: visual ${base}s · voice ${v ?? "-"}s → ${fit}s` +
-      (grow > 0.15 ? `  ⚠ +${Math.round(grow * 100)}%: consider rescaling frame JS timings` : ""),
+  report.unshift(
+    `frame ${n}: visual ${base}s · voice ${v ?? "-"}s${f.offset ? ` @+${f.offset}s` : ""} → ${fit}s` +
+      (grow > 0.15 ? `  ⚠ +${Math.round(grow * 100)}%: re-time the frame's reveals to the words` : ""),
   );
 }
 writeFileSync(sbPath, lines.join("\n"));
-console.log(`sum of frame durations: ${total.toFixed(1)}s (before transition overlaps)`);
+console.log(report.join("\n"));
+console.log(`total: ${Math.round(total * 10) / 10}s`);

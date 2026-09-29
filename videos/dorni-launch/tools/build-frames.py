@@ -163,14 +163,14 @@ tl.fromTo('#f02-fill',{{scaleX:0.02}},{{scaleX:1,duration:1.3,ease:'power1.in'}}
 tl.fromTo('#f02-rw',{{autoAlpha:0}},{{autoAlpha:1,duration:0.15}},1.8);
 tl.to('#f02-fill',{{scaleX:0.02,duration:0.9,ease:'power3.inOut'}},1.85);
 tl.fromTo('#f02-l2',{{yPercent:110}},{{yPercent:0,duration:0.7,ease:'expo.out'}},1.9);
-tl.fromTo('#f02-l3',{{yPercent:110}},{{yPercent:0,duration:0.7,ease:'expo.out'}},3.1);
+tl.fromTo('#f02-l3',{{yPercent:110}},{{yPercent:0,duration:0.7,ease:'expo.out'}},3.35);
 const pose=rig('f02-jf'), jd=document.querySelector('#f02-jf .jf-dome'), jts=document.querySelectorAll('#f02-jf .jf-t');
 function render(t){{
-  // age up (0.4-1.7): grows, droops, fades toward mist; rewind (1.85-2.75): shrinks to a speck; rebirth (2.8-3.5)
+  // age up (0.4-1.7): grows, droops, fades toward mist; rewind (1.85-2.75): shrinks to a speck; holds through the VO pause; rebirth on "and starts over" (3.3-4.0)
   let s, tent=1, drift=Math.sin(t*2)*10, rot=Math.sin(t*1.4)*4, col;
-  const age=seg(t,0.4,1.7), back=easeInOut(seg(t,1.85,2.75)), born=easeOut(seg(t,2.8,3.5));
+  const age=seg(t,0.4,1.7), back=easeInOut(seg(t,1.85,2.75)), born=easeOut(seg(t,3.3,4.0));
   if(t<1.85){{s=lerp(0.9,1.45,age);tent=lerp(1,1.5,age);rot+=age*14;col=age;}}
-  else if(t<2.8){{s=lerp(1.45,0.12,back);tent=lerp(1.5,0.2,back);col=1-back;}}
+  else if(t<3.3){{s=lerp(1.45,0.12,back);tent=lerp(1.5,0.2,back);col=1-back;}}
   else{{s=lerp(0.12,1.0,born);tent=lerp(0.2,1,born);col=0;}}
   const c=gsap.utils.interpolate('{BLUE}','{MIST}',col*0.8);
   gsap.set(jd,{{fill:c}});jts.forEach(r=>gsap.set(r,{{fill:c}}));
@@ -191,7 +191,7 @@ keep = [0, 1, 3, 4, 5]
 fx0 = 946 - sum(adv[i] for i in keep) / 2
 final = {k: fx0 + sum(adv[j] for j in keep[:n]) for n, k in enumerate(keep)}
 spans = "".join(f'<span class="f03-ch" id="f03-c{i}" style="left:{start[i]:.1f}px;">{ch}</span>' for i, ch in enumerate(letters))
-close_js = "\n".join(f"tl.fromTo('#f03-c{k}',{{x:0}},{{x:{final[k]-start[k]:.1f},duration:0.5,ease:'power3.inOut'}},0.95);" for k in keep)
+close_js = "\n".join(f"tl.fromTo('#f03-c{k}',{{x:0}},{{x:{final[k]-start[k]:.1f},duration:0.5,ease:'power3.inOut'}},2.05);" for k in keep)
 frames["03-name"] = (3, f"""
 <div id="f03-kick" class="mono">the name</div>
 <div id="f03-word" data-layout-allow-overlap="true">{spans}</div>
@@ -207,19 +207,19 @@ frames["03-name"] = (3, f"""
 """, f"""
 tl.fromTo('#f03-kick',{{autoAlpha:0}},{{autoAlpha:1,duration:0.4}},0.1);
 tl.fromTo('#f03-word',{{autoAlpha:0,scale:0.96}},{{autoAlpha:1,scale:1,duration:0.5,ease:'power3.out'}},0.05);
-tl.fromTo('#f03-c2',{{y:0,autoAlpha:1,rotation:0}},{{y:420,autoAlpha:0,rotation:-18,duration:0.6,ease:'power2.in'}},0.75);
-tl.fromTo('#f03-c6',{{y:0,autoAlpha:1,rotation:0}},{{y:420,autoAlpha:0,rotation:16,duration:0.6,ease:'power2.in'}},0.85);
+tl.fromTo('#f03-c2',{{y:0,autoAlpha:1,rotation:0}},{{y:420,autoAlpha:0,rotation:-18,duration:0.6,ease:'power2.in'}},1.85);
+tl.fromTo('#f03-c6',{{y:0,autoAlpha:1,rotation:0}},{{y:420,autoAlpha:0,rotation:16,duration:0.6,ease:'power2.in'}},1.95);
 {close_js}
-tl.to('#f03-word',{{autoAlpha:0,filter:'blur(10px)',duration:0.4,ease:'power2.in'}},1.45);
-tl.fromTo('#f03-mark',{{autoAlpha:0,filter:'blur(10px)'}},{{autoAlpha:1,filter:'blur(0px)',duration:0.4,ease:'power2.out'}},1.5);
-tl.fromTo('#f03-dot',{{scale:0}},{{scale:1,duration:0.35,ease:'back.out(2)'}},2.3);
+tl.to('#f03-word',{{autoAlpha:0,filter:'blur(10px)',duration:0.4,ease:'power2.in'}},2.55);
+tl.fromTo('#f03-mark',{{autoAlpha:0,filter:'blur(10px)'}},{{autoAlpha:1,filter:'blur(0px)',duration:0.4,ease:'power2.out'}},2.6);
+tl.fromTo('#f03-dot',{{scale:0}},{{scale:1,duration:0.35,ease:'back.out(2)'}},3.4);
 const pose=rig('f03-jf');
 function render(t){{
   // jelly swims in from top-right and dives into the dot of the i (1355,410)
-  const u=easeInOut(seg(t,1.3,2.35));
+  const u=easeInOut(seg(t,2.4,3.45));
   const x=lerp(1900,1355,u), y=lerp(80,410,u)-Math.sin(u*Math.PI)*60;
   const s=lerp(0.7,0.35,u);
-  pose(x,y,lerp(220,180,u),s,t,1,t<2.3?1:0);
+  pose(x,y,lerp(220,180,u),s,t,1,t<3.4?1:0);
 }}
 {clock()}
 """)
@@ -254,7 +254,7 @@ tl.fromTo('#f04-sw',{{autoAlpha:0,y:30}},{{autoAlpha:1,y:0,duration:0.6,ease:'po
 {eat_js}
 tl.to('#f04-pre',{{autoAlpha:0,duration:0.3}},2.2);
 tl.fromTo('#f04-a1',{{yPercent:110,autoAlpha:0}},{{yPercent:0,autoAlpha:1,duration:0.8,ease:'expo.out'}},2.45);
-tl.fromTo('#f04-a2',{{autoAlpha:0,y:14}},{{autoAlpha:1,y:0,duration:0.5,ease:'power3.out'}},3.2);
+tl.fromTo('#f04-a2',{{autoAlpha:0,y:14}},{{autoAlpha:1,y:0,duration:0.5,ease:'power3.out'}},3.6);
 const pose=rig('f04-jf');
 function render(t){{
   // swims right->left through the word, mouth-first, gobbling letters
@@ -285,7 +285,7 @@ frames["05-forever"] = (3.5, f"""
 #root .f05-small span{{font-size:56px;color:rgba(238,241,255,0.75);}}
 """, f"""
 tl.fromTo('#f05-l1',{{yPercent:110}},{{yPercent:0,duration:0.7,ease:'expo.out'}},0.35);
-tl.fromTo('#f05-l2',{{yPercent:110}},{{yPercent:0,duration:0.8,ease:'expo.out'}},1.0);
+tl.fromTo('#f05-l2',{{yPercent:110}},{{yPercent:0,duration:0.8,ease:'expo.out'}},1.4);
 const path=document.getElementById('f05-path'), P=mkPath(path.getAttribute('d')), L=P.L;
 gsap.set(path,{{strokeDasharray:L}});
 const pose=rig('f05-jf');
@@ -317,15 +317,15 @@ frames["06-lives"] = (3.5, f"""
 #f06-ecg{{position:absolute;left:0;top:0;}}
 """, f"""
 tl.fromTo('#f06-l1',{{yPercent:110}},{{yPercent:0,duration:0.7,ease:'expo.out'}},0.2);
-tl.fromTo('#f06-l2',{{yPercent:110}},{{yPercent:0,duration:0.7,ease:'expo.out'}},0.9);
-tl.fromTo('#f06-l3',{{yPercent:110}},{{yPercent:0,duration:0.7,ease:'expo.out'}},1.6);
-tl.to('#f06-l1',{{opacity:0.45,duration:0.5}},1.6);
-tl.to('#f06-l2',{{opacity:0.7,duration:0.5}},1.6);
+tl.fromTo('#f06-l2',{{yPercent:110}},{{yPercent:0,duration:0.7,ease:'expo.out'}},1.2);
+tl.fromTo('#f06-l3',{{yPercent:110}},{{yPercent:0,duration:0.7,ease:'expo.out'}},2.25);
+tl.to('#f06-l1',{{opacity:0.45,duration:0.5}},2.25);
+tl.to('#f06-l2',{{opacity:0.7,duration:0.5}},2.25);
 const path=document.getElementById('f06-path'), P=mkPath(path.getAttribute('d')), L=P.L;
 gsap.set(path,{{strokeDasharray:L}});
 const pose=rig('f06-jf');
 function render(t){{
-  const u=seg(t,0.2,3.3); const p=onPath(P,u);
+  const u=seg(t,0.2,3.9); const p=onPath(P,u);
   gsap.set(path,{{strokeDashoffset:L*(1-u)}});
   pose(p.x,p.y-8,p.rot,0.32,t,1,u>0.995?0:1);
 }}
@@ -366,7 +366,7 @@ for(let i=0;i<4;i++){{
   tl.fromTo('#f07-tag'+i,{{color:'{MIST}'}},{{color:'{BLUE}',duration:0.3}},1.95+i*0.28);
 }}
 tl.fromTo('#f07-label',{{autoAlpha:0,x:-10}},{{autoAlpha:1,x:0,duration:0.4}},1.1);
-tl.fromTo('#f07-h2',{{autoAlpha:0,y:24}},{{autoAlpha:1,y:0,duration:0.6,ease:'power3.out'}},2.7);
+tl.fromTo('#f07-h2',{{autoAlpha:0,y:24}},{{autoAlpha:1,y:0,duration:0.6,ease:'power3.out'}},2.45);
 const wires=[0,1,2,3].map(i=>document.getElementById('f07-w'+i)), WL=wires.map(w=>mkPath(w.getAttribute('d')).L);
 wires.forEach((w,i)=>gsap.set(w,{{strokeDasharray:WL[i],strokeDashoffset:WL[i]}}));
 const pose=rig('f07-jf');
