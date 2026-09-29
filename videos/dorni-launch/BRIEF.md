@@ -9,7 +9,7 @@ language: en
 audience: general launch (LinkedIn, press, ecosystem)
 length: 30s
 angle: the immortal jellyfish
-narration: no
+narration: yes
 ---
 
 ## Intent
@@ -36,11 +36,12 @@ Tone: calm confidence, deep-sea, a little playful. Sell (promo), not a site tour
 - The swimming jellyfish is the transition device between scenes, plus fun uses of it during the video (user ask: "come up with fun ways to use it").
 - Start quick with the immortal-jellyfish story.
 - Mention "Dorni OS" as the layer that enhances the brands.
-- On-screen text instead of voiceover (sound-off friendly).
+- On-screen text stays (sound-off friendly). Voiceover + music added after the silent cut (2026-09-29):
+  warm male documentary voice (HeyGen Starfish), deep ambient underwater synths building to a hopeful swell.
 
 ## Notes
 
-- Silent delivery: no VO, no music. Pace the cut so a music bed can be added later.
+- Delivered silent first (v1), then narrated: SCRIPT.md holds the approved narration.
 - The site's portfolio shows placeholder names (Brand A to D). Never show those names; use the categories: metabolic health, functional nutrition, sleep and recovery, movement and mobility.
 - Crop out the "Edit with Lovable" badge from any captured screen.
 - `flow: automation` was inferred (not asked); switch to companion on request.

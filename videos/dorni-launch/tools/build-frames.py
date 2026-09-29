@@ -436,6 +436,25 @@ function render(t){{
 {clock()}
 """)
 
+def storyboard_durations():
+    """src -> seconds from STORYBOARD.md, so VO-synced durations flow into the frames."""
+    import re
+    out, dur = {}, None
+    for line in (ROOT / "STORYBOARD.md").read_text().splitlines():
+        if line.startswith("## Frame"):
+            dur = None
+        m = re.match(r"^- duration:\s*([0-9.]+)s?\s*$", line)
+        if m:
+            dur = float(m.group(1))
+        m = re.match(r"^- src:\s*compositions/frames/(\S+)\.html", line)
+        if m and dur is not None:
+            out[m.group(1)] = dur
+    return out
+
+
+durs = storyboard_durations()
 for fid, spec in frames.items():
+    d = durs.get(fid, spec[0])
+    spec = (int(d) if d == int(d) else d,) + tuple(spec[1:])
     (OUT / f"{fid}.html").write_text(frame(fid, *spec))
-    print("wrote", fid)
+    print("wrote", fid, f"{spec[0]:g}s")

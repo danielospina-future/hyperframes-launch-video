@@ -5,13 +5,15 @@ message: "AI ate software; now Dorni brings those tools to the world of atoms, b
 arc: Future Pacing (imagine → name → shift → mechanism → outcome → brand)
 audience: general launch (LinkedIn, press, ecosystem)
 mode: collaborative
-music: none
+music: "deep ambient, underwater synths building to a hopeful swell"
 style: frame.md (broadside remixed onto Dorni navy #05070F / electric blue #1A4DFF)
 ---
 
 ## Video direction
 
-Silent, type-led film (no VO, no music; paced to leave room for a music bed later). One protagonist:
+Type-led film with a warm male documentary voiceover (HeyGen Starfish, SCRIPT.md) over a deep ambient
+underwater synth bed that builds to a hopeful swell, peaking on the frame 8 lockup (no VO there: music +
+sting). On-screen type stays so it still works sound-off. One protagonist:
 the Dorni jellyfish (`assets/jellyfish.svg`, traced from the user's sting) swims through every frame
 and does the transitions: it swims across the cut, its tentacles grab, pull, draw and connect things.
 Deep-navy ground, electric blue as the only accent, lowercase display type, IBM Plex Mono kickers.
@@ -20,7 +22,8 @@ Reading pace: every on-screen line holds long enough to read twice. Close on the
 ## Frame 1 — The immortal jellyfish
 
 - scene: The jellyfish drifts up out of the dark, pulsing; the claim lands beside it
-- voiceover: "TURRITOPSIS DOHRNII" / "there's a jellyfish that can live forever."
+- voiceover: "There's a jellyfish that can live forever."
+- on_screen: "TURRITOPSIS DOHRNII" / "there's a jellyfish that can live forever."
 - duration: 4s
 - transition_in: cut
 - status: animated
@@ -37,7 +40,8 @@ keyMessage: immortality exists in nature.
 ## Frame 2 — It turns young again
 
 - scene: A mono AGE readout climbs, then rewinds (◀◀) while the jellyfish shrinks back to a dot and blooms again
-- voiceover: "when it grows old," / "it turns young again." / "and starts over."
+- voiceover: "When it grows old, it simply turns young again... and starts over."
+- on_screen: "when it grows old," / "it turns young again." / "and starts over."
 - duration: 4.5s
 - transition_in: crossfade
 - status: animated
@@ -53,7 +57,8 @@ keyMessage: it resets instead of dying.
 ## Frame 3 — dohrnii → dorni
 
 - scene: The species name "dohrnii" sits huge; the extra letters drop away and it snaps into the "dorni" wordmark, the jellyfish settling as the dot of the i
-- voiceover: "dohrnii" / "dorni"
+- voiceover: "Its name is dohrnii. Ours is Dorni."
+- on_screen: "dohrnii" / "dorni"
 - duration: 3s
 - transition_in: crossfade
 - status: animated
@@ -70,7 +75,8 @@ keyMessage: Dorni is named after the jellyfish that never dies.
 ## Frame 4 — AI ate software
 
 - scene: "software" sits on screen; the jellyfish swims through and its tentacles pull the word apart letter by letter; "atoms" is left standing
-- voiceover: "ai has eaten software." / "the world of atoms" / "is yet to be disrupted."
+- voiceover: "AI has eaten software. But the world of atoms is still waiting."
+- on_screen: "ai has eaten software." / "the world of atoms" / "is yet to be disrupted."
 - duration: 4.5s
 - transition_in: push-slide LEFT
 - status: animated
@@ -86,7 +92,8 @@ keyMessage: the physical world is the next frontier.
 ## Frame 5 — Brands that last forever
 
 - scene: Blue register. The jellyfish swims a slow infinity loop; the line lands inside it
-- voiceover: "now we have the tools" / "to make brands last forever."
+- voiceover: "Now we have the tools to make brands last forever."
+- on_screen: "now we have the tools" / "to make brands last forever."
 - duration: 3.5s
 - transition_in: zoom-through
 - status: animated
@@ -102,7 +109,8 @@ keyMessage: Dorni makes brands immortal.
 ## Frame 6 — Longer human lives
 
 - scene: Three words stack as a fadelist while the jellyfish's tentacles draw a pulse line under them
-- voiceover: "more functional." / "healthier." / "longer human lives."
+- voiceover: "More functional. Healthier. Longer human lives."
+- on_screen: "more functional." / "healthier." / "longer human lives."
 - duration: 3.5s
 - transition_in: crossfade
 - status: animated
@@ -117,7 +125,8 @@ keyMessage: the point is healthier, longer lives.
 ## Frame 7 — Enhanced by Dorni OS
 
 - scene: The jellyfish becomes a hub labelled DORNI OS; its tentacles extend down and plug into four navy brand cards (metabolic health · functional nutrition · sleep & recovery · movement & mobility), each lighting up blue as it connects
-- voiceover: "d2c health brands," / "enhanced by dorni os."
+- voiceover: "D2C health brands, enhanced by Dorni OS."
+- on_screen: "d2c health brands," / "enhanced by dorni os."
 - duration: 4.5s
 - transition_in: crossfade
 - status: animated
@@ -151,7 +160,8 @@ keyMessage: dorni.
 ## Frame 9 — Swim away
 
 - scene: The blue circle collapses back into the dot of the i; the dot becomes the jellyfish and swims off in a long arc, its trail writing the closing line; a new dot is born on the i
-- voiceover: "acquiring the brands that will help billions live longer, healthier lives."
+- voiceover: "Acquiring the brands that will help billions live longer, healthier lives."
+- on_screen: "acquiring the brands that will help billions live longer, healthier lives."
 - duration: 8s
 - transition_in: cut
 - status: animated
