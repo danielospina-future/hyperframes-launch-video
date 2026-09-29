@@ -1,0 +1,188 @@
+{
+  "typography": [
+    {
+      "role": "display",
+      "fontFamily": "Helvetica Neue",
+      "fontSize": "99.2px",
+      "fontWeight": "500",
+      "lineHeight": "99.2px",
+      "letterSpacing": "normal",
+      "color": "#EEF1FF",
+      "sampleText": "The holding company behind the D2C brands rewriting human he"
+    },
+    {
+      "role": "heading",
+      "fontFamily": "Helvetica Neue",
+      "fontSize": "60px",
+      "fontWeight": "500",
+      "lineHeight": "75px",
+      "letterSpacing": "normal",
+      "color": "#EEF1FF",
+      "sampleText": "A disciplined system for enduring growth."
+    },
+    {
+      "role": "heading-3",
+      "fontFamily": "Helvetica Neue",
+      "fontSize": "48px",
+      "fontWeight": "500",
+      "lineHeight": "48px",
+      "letterSpacing": "normal",
+      "color": "#EEF1FF",
+      "sampleText": "Brand A"
+    },
+    {
+      "role": "heading-2",
+      "fontFamily": "Helvetica Neue",
+      "fontSize": "24px",
+      "fontWeight": "500",
+      "lineHeight": "32px",
+      "letterSpacing": "normal",
+      "color": "#EEF1FF",
+      "sampleText": "Acquire"
+    },
+    {
+      "role": "body",
+      "fontFamily": "Helvetica Neue",
+      "fontSize": "17px",
+      "fontWeight": "400",
+      "lineHeight": "27.2px",
+      "letterSpacing": "normal",
+      "color": "#8FA6FF",
+      "sampleText": "We acquire and scale D2C brands — through AI efficiencies — "
+    },
+    {
+      "role": "link",
+      "fontFamily": "Helvetica Neue",
+      "fontSize": "16px",
+      "fontWeight": "400",
+      "lineHeight": "24px",
+      "letterSpacing": "normal",
+      "color": "#EEF1FF",
+      "sampleText": "dornı"
+    },
+    {
+      "role": "code",
+      "fontFamily": "IBM Plex Mono",
+      "fontSize": "14px",
+      "fontWeight": "500",
+      "lineHeight": "20px",
+      "letterSpacing": "2.24px",
+      "color": "#05070F",
+      "sampleText": "Talk to us about your brand"
+    }
+  ],
+  "spacing": {
+    "observed": [
+      1,
+      6,
+      8,
+      12,
+      16,
+      20,
+      24,
+      28,
+      32,
+      36,
+      40,
+      48,
+      64,
+      112
+    ],
+    "baseUnit": 8
+  },
+  "radius": [],
+  "shadows": [
+    {
+      "value": "rgba(0, 0, 0, 0.88) 0px 0px 0px 1px, rgba(0, 0, 0, 0.04) 0px 1px 0px 0px, rgba(0, 0, 0, 0.08) 0px 2px 2px -1px, rgba(0, 0, 0, 0.08) 0px 4px 4px -2px, rgba(0, 0, 0, 0.08) 0px 8px 8px -4px, rgba(0, 0, 0, 0.08) 0px 16px 16px -8px",
+      "count": 1
+    }
+  ],
+  "buttons": [
+    {
+      "label": "button",
+      "background": "transparent",
+      "backgroundImage": "",
+      "backdropFilter": "",
+      "color": "#C5C1B9",
+      "padding": "0px",
+      "borderRadius": "0px 6px 6px 0px",
+      "border": "0px none rgb(197, 193, 185)",
+      "boxShadow": "none",
+      "fontSize": "12px",
+      "fontWeight": "400",
+      "height": "24px"
+    }
+  ],
+  "cards": [
+    {
+      "label": "card",
+      "background": "#0B1A5C",
+      "backgroundImage": "",
+      "backdropFilter": "",
+      "color": "#EEF1FF",
+      "padding": "36px",
+      "borderRadius": "0px",
+      "border": "0px solid rgb(11, 26, 92)",
+      "boxShadow": "none",
+      "fontSize": "16px",
+      "fontWeight": "400",
+      "height": "288px"
+    },
+    {
+      "label": "card",
+      "background": "#0B1A5C",
+      "backgroundImage": "",
+      "backdropFilter": "",
+      "color": "#EEF1FF",
+      "padding": "36px",
+      "borderRadius": "0px",
+      "border": "1px solid rgb(11, 26, 92)",
+      "boxShadow": "none",
+      "fontSize": "16px",
+      "fontWeight": "400",
+      "height": "320px"
+    },
+    {
+      "label": "card",
+      "background": "#05070F",
+      "backgroundImage": "",
+      "backdropFilter": "",
+      "color": "#EEF1FF",
+      "padding": "36px",
+      "borderRadius": "0px",
+      "border": "1px solid rgb(11, 26, 92)",
+      "boxShadow": "none",
+      "fontSize": "16px",
+      "fontWeight": "400",
+      "height": "320px"
+    }
+  ],
+  "nav": {
+    "label": "navigation",
+    "background": "oklab(0.130397 -0.0000611097 -0.0192351 / 0.94)",
+    "backgroundImage": "",
+    "backdropFilter": "blur(16px)",
+    "color": "#EEF1FF",
+    "padding": "0px",
+    "borderRadius": "0px",
+    "border": "",
+    "boxShadow": "none",
+    "fontSize": "16px",
+    "fontWeight": "400",
+    "height": "81px"
+  },
+  "chips": [],
+  "statCells": [],
+  "tabs": [],
+  "backgrounds": [],
+  "glass": [
+    {
+      "backdropFilter": "blur(16px)",
+      "background": "oklab(0.130397 -0.0000611097 -0.0192351 / 0.94)",
+      "border": "",
+      "borderRadius": "0px",
+      "boxShadow": "",
+      "area": 155520
+    }
+  ]
+}

@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 260 310" width="260" height="310">
+  <!-- Dorni jellyfish mark, traced from assets/dorni-jellyfish-sting.mp4 -->
+  <path id="dome" fill="#1A4DFF" d="M0 155 L0 130 A130 130 0 0 1 260 130 L260 155 Z" />
+  <rect id="t1" x="75" y="175" width="16" height="100" rx="8" fill="#1A4DFF" />
+  <rect id="t2" x="122" y="175" width="16" height="135" rx="8" fill="#1A4DFF" />
+  <rect id="t3" x="169" y="175" width="16" height="100" rx="8" fill="#1A4DFF" />
+</svg>

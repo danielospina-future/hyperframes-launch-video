@@ -1,0 +1,100 @@
+{
+  "summary": {
+    "webAnimations": 2,
+    "cssDeclarations": 29,
+    "scrollTargets": 0,
+    "cdpAnimations": 2,
+    "canvases": 0
+  },
+  "namedAnimations": [
+    "jellyfish-swim",
+    "jellyfish-breathe",
+    "jellyfish-drift",
+    "reveal"
+  ],
+  "scrollTriggeredElements": 0,
+  "representativeAnimations": [
+    {
+      "type": "CSSAnimation",
+      "playState": "finished",
+      "animationName": "reveal",
+      "targetSelector": "h1.max-w-5xl.font-display.text-[clamp(2.7rem,6.5vw,6.2rem)]",
+      "targetRect": {
+        "x": 272,
+        "y": 254.375,
+        "width": 1024,
+        "height": 396.8125,
+        "top": 254.375,
+        "right": 1296,
+        "bottom": 651.1875,
+        "left": 272
+      },
+      "keyframes": [
+        {
+          "offset": 0,
+          "easing": "ease",
+          "composite": "auto",
+          "transform": "translateY(14px)",
+          "opacity": "0",
+          "computedOffset": 0
+        },
+        {
+          "offset": 1,
+          "easing": "ease",
+          "composite": "auto",
+          "transform": "translateY(0px)",
+          "opacity": "1",
+          "computedOffset": 1
+        }
+      ],
+      "timing": {
+        "duration": 700,
+        "delay": 0,
+        "iterations": 1,
+        "easing": "linear",
+        "direction": "normal"
+      }
+    },
+    {
+      "type": "CSSAnimation",
+      "playState": "finished",
+      "animationName": "reveal",
+      "targetSelector": "p.max-w-2xl.text-[17px].leading-[1.6]",
+      "targetRect": {
+        "x": 272,
+        "y": 724.1875,
+        "width": 672,
+        "height": 54.375,
+        "top": 724.1875,
+        "right": 944,
+        "bottom": 778.5625,
+        "left": 272
+      },
+      "keyframes": [
+        {
+          "offset": 0,
+          "easing": "ease",
+          "composite": "auto",
+          "transform": "translateY(14px)",
+          "opacity": "0",
+          "computedOffset": 0
+        },
+        {
+          "offset": 1,
+          "easing": "ease",
+          "composite": "auto",
+          "transform": "translateY(0px)",
+          "opacity": "1",
+          "computedOffset": 1
+        }
+      ],
+      "timing": {
+        "duration": 700,
+        "delay": 160,
+        "iterations": 1,
+        "easing": "linear",
+        "direction": "normal"
+      }
+    }
+  ]
+}

@@ -1,0 +1,48 @@
+{
+  "version": 1,
+  "preferences": {
+    "destination": {
+      "value": "youtube-website",
+      "confirmed_in": [
+        "dorni-launch"
+      ],
+      "updated_at": "2026-09-29T04:07:48.370Z"
+    },
+    "aspect": {
+      "value": "1920x1080",
+      "confirmed_in": [
+        "dorni-launch"
+      ],
+      "updated_at": "2026-09-29T04:07:48.422Z"
+    },
+    "language": {
+      "value": "en",
+      "confirmed_in": [
+        "dorni-launch"
+      ],
+      "updated_at": "2026-09-29T04:07:48.471Z"
+    },
+    "flow": {
+      "value": "automation",
+      "confirmed_in": [
+        "dorni-launch"
+      ],
+      "updated_at": "2026-09-29T04:07:48.520Z"
+    },
+    "storyboard": {
+      "value": "yes",
+      "confirmed_in": [
+        "dorni-launch"
+      ],
+      "updated_at": "2026-09-29T04:07:48.572Z"
+    },
+    "style_preset.product-launch-video": {
+      "value": "broadside",
+      "confirmed_in": [
+        "dorni-launch"
+      ],
+      "updated_at": "2026-09-29T04:08:04.709Z"
+    }
+  },
+  "sightings": {}
+}

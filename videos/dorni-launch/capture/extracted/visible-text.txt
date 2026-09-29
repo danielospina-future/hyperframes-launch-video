@@ -1,0 +1,42 @@
+[span] dorn
+[a] Portfolio
+[a] For founders
+[a] Talk to us
+[h1] The holding company behind the D2C brands rewriting human health.
+[p] We acquire and scale D2C brands — through AI efficiencies — that help people live healthier, more functional, longer lives.
+[a] Talk to us about your brand
+[a] See portfolio
+[span] Acquisition · Operations · Growth
+[span] Long-term ownership
+[p] What we do
+[h2] A disciplined system for enduring growth.
+[h2] Acquire
+[p] We partner with enduring D2C health brands at an inflection point.
+[h2] Scale
+[p] We compound growth with patient capital and focused operations.
+[h2] Enable
+[p] AI efficiencies strengthen the work behind each independent brand.
+[a] Our model
+[p] Portfolio
+[h2] Brands built to endure.
+[a] View all
+[h3] Brand A
+[p] Daily metabolic health
+[p] A DORNI BRAND
+[h3] Brand B
+[p] Functional nutrition
+[p] A DORNI BRAND
+[h3] Brand C
+[p] Sleep and recovery
+[p] A DORNI BRAND
+[h3] Brand D
+[p] Movement and mobility
+[p] A DORNI BRAND
+[p] a Dorni company
+[p] For founders
+[h2] Building a brand that belongs here?
+[a] Talk to us about your brand
+[p] a Dorni company
+[a] What we do
+[span] © 2026 Dorni
+[span] Edit with
