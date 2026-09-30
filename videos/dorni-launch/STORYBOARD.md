@@ -5,15 +5,16 @@ message: "AI ate software; now Dorni brings those tools to the world of atoms, b
 arc: Future Pacing (imagine → name → shift → mechanism → outcome → brand)
 audience: general launch (LinkedIn, press, ecosystem)
 mode: collaborative
-music: "deep ambient, underwater synths building to a hopeful swell"
+music: "upbeat modern tech, clean synths, rhythmic and confident (startup)"
 style: frame.md (broadside remixed onto Dorni navy #05070F / electric blue #1A4DFF)
 ---
 
 ## Video direction
 
-Type-led film with a warm male documentary voiceover (HeyGen Starfish, SCRIPT.md) over a deep ambient
-underwater synth bed that builds to a hopeful swell, peaking on the frame 8 lockup (no VO there: music +
-sting). On-screen type stays so it still works sound-off. One protagonist:
+Type-led film with a warm male documentary voiceover (HeyGen Starfish, SCRIPT.md) over an upbeat,
+startup-tech synth groove (~120 BPM): a light groove under the jellyfish story, the full beat dropping on
+"AI has eaten software.", a two-bar break under "enhanced by Dorni OS", and the beat back on the frame 8
+lockup (no VO there: music + sting). On-screen type stays so it still works sound-off. One protagonist:
 the Dorni jellyfish (`assets/jellyfish.svg`, traced from the user's sting) swims through every frame
 and does the transitions: it swims across the cut, its tentacles grab, pull, draw and connect things.
 Deep-navy ground, electric blue as the only accent, lowercase display type, IBM Plex Mono kickers.

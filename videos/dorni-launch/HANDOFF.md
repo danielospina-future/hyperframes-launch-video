@@ -1,6 +1,6 @@
 # Handoff: Dorni launch film (narrated)
 
-State (2026-09-29): 43.5s film with HeyGen voiceover + music, rendered to renders/video.mp4.
+State (2026-09-30): 43.5s film with HeyGen voiceover + upbeat startup-tech music, rendered to renders/video.mp4.
 Previous silent cut was 40s; frames grew to fit the voice (tools/fit-durations.mjs).
 
 ## Locked decisions
@@ -8,8 +8,10 @@ Previous silent cut was 40s; frames grew to fit the voice (tools/fit-durations.m
 - Voice: HeyGen "Resonant Docu-Pro" `aiXCV9D0yx4ptgZ3piiy` (warm male, documentary). Picked from a
   12-voice audition on Lines 2+3 by measured pitch/pace/pronunciation length, not by ear.
   Alternates: Samuel-Narration `6e51a203c3e74398ae8046f3c320abf6`, Harry-Narration `6648fd92bcba41df809a01712faf9a4a`.
-- Music: HeyGen library track 3164530a ("deep atmospheric bass drone, rising triumphant cinematic
-  swell"), assets/bgm/library-3164530a.flac. The pipeline's default top hit had disco undertones.
+- Music: HeyGen library track 5530e1c0 ("modern optimistic tech, clean synths, rhythmic and
+  confident"), assets/bgm/library-5530e1c0.flac, ~120 BPM, major key. Replaced the first bed (deep
+  ambient drone 3164530a), which the user found spooky. Picked from 10 "upbeat startup tech" library
+  hits by measured tempo, key (two "upbeat" hits were minor), brightness and section structure.
 - Frame 4 on-screen line matches the VO: "is still waiting."
 
 ## How the audio is built
@@ -20,17 +22,19 @@ Previous silent cut was 40s; frames grew to fit the voice (tools/fit-durations.m
   instead of the skill's sync-durations, which would shrink frames to raw voice length.
 - `voice_offset:` (storyboard, frame 9 = 3s) delays a frame's voice; frame 9's VO is read while
   the jellyfish writes the same line.
-- `tools/mix.mjs prep` cuts assets/bgm/bed.mp3 from the library track: from 7s (swell lands on the
-  frame 8 lockup at ~31s), -8 dB, 1.5s fade in, 3s fade out, fitted to the film length.
+- `tools/mix.mjs prep` cuts assets/bgm/bed.mp3 from the library track: from 1s, -4 dB, 1s fade in,
+  3s fade out, fitted to the film length. The 1s offset lands the track's beat drop (16.0s) on the
+  end of "AI has eaten software." (film 15.0s) and its post-break re-entry (32.0s) on the lockup (31.0s).
   Offset and level are baked into the file because the carve reads the file from sample 0 and
   ignores data-volume / data-media-start.
 - `tools/mix.mjs patch` groups the narration as `voiceover`, applies voice offsets, checks length.
-- Voiceover carve (hyperframes-audio carve.mjs, strength 0.8, dynamic) on el-bgm against the group.
+- Voiceover carve (hyperframes-audio carve.mjs, strength 0.5, dynamic) on el-bgm against the group.
+  The default 0.8 held the bed ~20 dB under the voice (-35 LUFS), which hid the groove.
 - `tools/mix.mjs release` then opens the carve's level duck for frames with no VO: it ramps to
   0 dB over 30.45-31.0s (the crossfade into the lockup) and stays open until frame 9's voice. The
   carve's slow release otherwise held the bed ~10 dB down through the lockup (measured -24 LUFS).
-- Measured on the render: -14.3 LUFS integrated, -1.6 dBFS peak; narration ~-15 to -17 LUFS;
-  lockup swell -19 → -16 LUFS.
+- Measured (bed-only render with voices muted): bed under narration -32 LUFS before the drop, -28
+  after it (13-17 dB under the ~-15 LUFS voice); lockup -16 LUFS.
 - Frame reveals in build-frames.py are timed to the word timestamps (frames 2, 3, 4, 5, 6, 7).
 
 ## Rebuild / render
@@ -47,7 +51,8 @@ npx hyperframes render --skill=product-launch-video --quality high --output rend
 ```
 To change the voice: edit the voice id in SCRIPT.md's header, rerun `audio.mjs ... --voice <id>`
 (see product-launch-video SKILL Step 3.1), then `node tools/fit-durations.mjs` and the rebuild.
-To move the swell: change `offset` / `gainDb` in tools/mix.mjs and rebuild.
+To change the music: swap `source` / `offset` / `gainDb` in tools/mix.mjs and rebuild. Measure the bed
+under narration by rendering once with the voice `data-volume` set to 0.
 
 ## Known
 - `check` flags 5 contrast warnings on frame 7's small "a dorni brand" tags (blue on navy), sampled

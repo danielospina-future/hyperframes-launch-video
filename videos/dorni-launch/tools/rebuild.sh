@@ -11,8 +11,9 @@ node tools/mix.mjs prep
 node $L --script $K/assemble-index.mjs --storyboard ./STORYBOARD.md --hyperframes . | grep -E "total|anomal|bgm" || true
 node $L --script $K/transitions.mjs inject --storyboard ./STORYBOARD.md --hyperframes . >/dev/null
 node tools/mix.mjs patch
-# Voiceover carve on the bed (hyperframes-audio): dynamic, default strength 0.8.
-node $P/hyperframes-audio/scripts/carve.mjs --comp index.html --bed el-bgm | grep -E "^(bed|carve|level)" | sed 's/^/  /'
+# Voiceover carve on the bed (hyperframes-audio): dynamic. Strength 0.5, not the default 0.8:
+# the upbeat bed is part of the pitch, and 0.8 held it ~20 dB under the voice (inaudible).
+node $P/hyperframes-audio/scripts/carve.mjs --comp index.html --bed el-bgm --strength 0.5 | grep -E "^(bed|carve|level)" | sed 's/^/  /'
 node tools/mix.mjs release
 node $L --script $K/transitions.mjs verify --storyboard ./STORYBOARD.md --index ./index.html | tail -1
 sed -i 's#<script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"[^>]*></script>#<script src="assets/gsap.min.js"></script>#' index.html

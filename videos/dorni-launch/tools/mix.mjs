@@ -2,14 +2,14 @@
 // Music bed + voice placement for the Dorni film. Passes around assemble-index + the carve:
 //
 //   node tools/mix.mjs prep    before assembly: cut the bed from the library track so its
-//                              swell lands on the frame 8 lockup, fitted to the film's length,
+//                              post-break re-entry lands on the frame 8 lockup, fitted to the film's length,
 //                              and point audio_meta.json at it (volume 1: level is in the file).
 //   node tools/mix.mjs patch   after assembly: group the narration (so the carve can name the
 //                              group), apply per-frame `voice_offset`, verify the timeline.
 //   node tools/mix.mjs release after the carve: open the carve's level duck fully for frames
 //                              with no voiceover (frame 8 lockup). The carve releases slowly by
 //                              design, which is right between sentences but held the bed ~10 dB
-//                              down through the lockup and swallowed the swell.
+//                              down through the lockup, where the music should come forward.
 //
 // The bed's offset and level are baked into the file on purpose: the voiceover carve
 // (hyperframes-audio carve.mjs) decodes the bed from sample 0 and ignores data-volume and
@@ -21,15 +21,16 @@ import { fileURLToPath } from "node:url";
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), "..");
 
-// HeyGen music library 3164530a: "deep atmospheric bass drone, rising triumphant cinematic
-// swell" (76s). Ambient to ~36s, rises at 37s, sustained swell 38-60s. Starting 7s in puts
-// the rise on the crossfade into the lockup (film ~30-31s).
+// HeyGen music library 5530e1c0: "modern optimistic tech, clean synths, rhythmic and
+// confident" (53s, ~120 BPM, major). Light groove to 16.0s, full beat 16.0-29.75s, a two-bar
+// break 29.75-31.75s, full beat again from 32.0s. Starting 1s in lands the beat drop on the end
+// of "AI has eaten software." (film 15.0s) and the post-break re-entry on the lockup (31.0s).
 const BED = {
-  source: "assets/bgm/library-3164530a.flac",
+  source: "assets/bgm/library-5530e1c0.flac",
   out: "assets/bgm/bed.mp3",
-  offset: 7,
-  gainDb: -8, // swell ≈ -17 LUFS against ≈ -15 LUFS narration; ambient part ≈ -26 LUFS
-  fadeIn: 1.5,
+  offset: 1,
+  gainDb: -4, // full groove -11.8 LUFS → ≈ -16 at the lockup, against ≈ -15 LUFS narration
+  fadeIn: 1,
   fadeOut: 3,
 };
 const VOICE_GROUP = "voiceover";
@@ -73,7 +74,7 @@ function prep() {
   meta.bgm = {
     path: BED.out,
     volume: 1,
-    query: `library 3164530a from ${BED.offset}s, ${BED.gainDb} dB, fades ${BED.fadeIn}/${BED.fadeOut}s`,
+    query: `library 5530e1c0 from ${BED.offset}s, ${BED.gainDb} dB, fades ${BED.fadeIn}/${BED.fadeOut}s`,
     duration_s: total,
   };
   writeFileSync(metaPath, JSON.stringify(meta, null, 2));

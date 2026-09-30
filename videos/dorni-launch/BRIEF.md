@@ -37,7 +37,8 @@ Tone: calm confidence, deep-sea, a little playful. Sell (promo), not a site tour
 - Start quick with the immortal-jellyfish story.
 - Mention "Dorni OS" as the layer that enhances the brands.
 - On-screen text stays (sound-off friendly). Voiceover + music added after the silent cut (2026-09-29):
-  warm male documentary voice (HeyGen Starfish), deep ambient underwater synths building to a hopeful swell.
+  warm male documentary voice (HeyGen Starfish) over upbeat startup-tech music. The first bed (deep ambient,
+  underwater) read as spooky; replaced 2026-09-30 at the user's request.
 
 ## Notes
 

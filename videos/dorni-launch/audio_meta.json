@@ -2,7 +2,7 @@
   "bgm": {
     "path": "assets/bgm/bed.mp3",
     "volume": 1,
-    "query": "library 3164530a from 7s, -8 dB, fades 1.5/3s",
+    "query": "library 5530e1c0 from 1s, -4 dB, fades 1/3s",
     "duration_s": 43.5
   },
   "bgm_pending": false,
